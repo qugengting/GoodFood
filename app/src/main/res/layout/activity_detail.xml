@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.common.library.widget.ToolBar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:left_btn_visible="true"
+        app:title_text="具体做法"
+        app:title_visible="true">
+
+    </com.common.library.widget.ToolBar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/title"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/iv_meishi"
+                android:layout_width="match_parent"
+                android:layout_height="197dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="食材明细"
+                android:textColor="@color/title_second"
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/line_form" />
+
+            <com.common.library.widget.GridViewForScrollView
+                android:id="@+id/gv_shicai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:columnWidth="50dp"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="20dp">
+
+            </com.common.library.widget.GridViewForScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/line_form" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="做法步骤"
+                android:textColor="@color/title_second"
+                android:textSize="18sp" />
+
+            <com.common.library.widget.ListViewForScrollView
+                android:id="@+id/lv_zuofa"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:divider="@null">
+
+            </com.common.library.widget.ListViewForScrollView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

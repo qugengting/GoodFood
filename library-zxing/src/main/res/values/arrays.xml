@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--二维码模块-->
+    <string-array name="preferences_front_light_values" tools:ignore="MissingTranslation">
+        <item>ON</item>
+        <item>AUTO</item>
+        <item>OFF</item>
+    </string-array>
+    <string-array name="preferences_front_light_options">
+        <item>@string/preferences_front_light_on</item>
+        <item>@string/preferences_front_light_auto</item>
+        <item>@string/preferences_front_light_off</item>
+    </string-array>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_meishi"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:text="1、"
+                android:textColor="#666666"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="标题"
+                android:textColor="#666666"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tv_burden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="2"
+            android:text="原料："
+            android:textColor="#999999"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line_form" />
+
+</LinearLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--标题栏颜色-->
+    <color name="bg_toolbar">#03a9f4</color>
+</resources>
