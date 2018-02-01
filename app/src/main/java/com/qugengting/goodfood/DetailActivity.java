@@ -14,6 +14,8 @@ import com.common.library.util.Utils;
 import com.common.library.widget.GridViewForScrollView;
 import com.common.library.widget.ListViewForScrollView;
 import com.common.library.widget.ToolBar;
+import com.qugengting.goodfood.adapter.MaterialAdapter;
+import com.qugengting.goodfood.adapter.StepAdapter;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;

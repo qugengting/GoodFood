@@ -20,9 +20,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
-                android:text="1、"
                 android:textColor="#666666"
                 android:textSize="20sp" />
 
@@ -33,7 +32,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:text="标题"
+                android:text="@string/title"
                 android:textColor="#666666"
                 android:textSize="20sp" />
         </RelativeLayout>
@@ -54,7 +53,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:maxLines="2"
-            android:text="原料："
+            android:text="@string/burden"
             android:textColor="#999999"
             android:textSize="16sp" />
     </LinearLayout>

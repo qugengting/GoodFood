@@ -1,4 +1,4 @@
-package com.qugengting.goodfood;
+package com.qugengting.goodfood.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,32 +10,34 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.common.library.adapter.AbstractAdapter;
 import com.common.library.adapter.BaseHolder;
+import com.qugengting.goodfood.DetailActivity;
+import com.qugengting.goodfood.R;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-public class MeishiAdapter extends AbstractAdapter<String, MeishiAdapter.MeishiHolder>  {
+public class WeekSelectionAdapter extends AbstractAdapter<String, WeekSelectionAdapter.WeekSelectHolder>  {
 
-    public MeishiAdapter(Context context, List<String> data) {
+    public WeekSelectionAdapter(Context context, List<String> data) {
         super(context, data);
     }
 
     @Override
-    protected MeishiAdapter.MeishiHolder getHolder(View v) {
-        return new MeishiAdapter.MeishiHolder(v);
+    public WeekSelectHolder getHolder(View v) {
+        return new WeekSelectHolder(v);
     }
 
     @Override
-    protected int getView() {
-        return R.layout.item_listview_meishi;
+    public int getView() {
+        return R.layout.item_listview_weekselection;
     }
 
     @Override
-    protected void bindEvent(MeishiHolder holder, int position) {
+    public void bindEvent(WeekSelectHolder holder, int position) {
         String oriStr = data.get(position);
         final String[] strings = oriStr.split("=====");
-        holder.index.setText((position + 1) + "、");
+        holder.index.setText(context.getResources().getString(R.string.comma, (position + 1)));
         holder.title.setText(strings[0]);
         Glide.with(context).load(strings[1]).into(holder.imageView);
         holder.burden.setText(strings[2]);
@@ -65,7 +67,7 @@ public class MeishiAdapter extends AbstractAdapter<String, MeishiAdapter.MeishiH
     }
 
 
-    protected class MeishiHolder extends BaseHolder {
+    public class WeekSelectHolder extends BaseHolder {
         @BindView(R.id.tv_index)
         TextView index;
         @BindView(R.id.tv_title)
@@ -77,7 +79,7 @@ public class MeishiAdapter extends AbstractAdapter<String, MeishiAdapter.MeishiH
         @BindView(R.id.layout_meishi)
         LinearLayout layout;
 
-        public MeishiHolder(View view) {
+        public WeekSelectHolder(View view) {
             super(view);
         }
     }

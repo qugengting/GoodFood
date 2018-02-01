@@ -9,6 +9,7 @@ import android.view.Window;
 import com.common.library.pullableview.PullToRefreshLayout;
 import com.common.library.pullableview.PullableListView;
 import com.common.library.util.Utils;
+import com.qugengting.goodfood.adapter.WeekSelectionAdapter;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.refresh_view)
     PullToRefreshLayout ptrl;
     protected ProgressDialog dialog;
-    private MeishiAdapter adapter;
+    private WeekSelectionAdapter adapter;
     private static final String TAG = MainActivity.class.getSimpleName();
     private List<String> list = new ArrayList<>();
     private static final String OK = "ok";
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         listView.setCanPullDown(false);
-        adapter = new MeishiAdapter(this, list);
+        adapter = new WeekSelectionAdapter(this, list);
         listView.setAdapter(adapter);
         ptrl.setOnRefreshListener(new MyRefreshListener());
         start(null);

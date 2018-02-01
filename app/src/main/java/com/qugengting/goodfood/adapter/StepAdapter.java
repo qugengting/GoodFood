@@ -1,4 +1,4 @@
-package com.qugengting.goodfood;
+package com.qugengting.goodfood.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.common.library.adapter.AbstractAdapter;
 import com.common.library.adapter.BaseHolder;
+import com.qugengting.goodfood.R;
 
 import java.util.List;
 
@@ -20,17 +21,17 @@ public class StepAdapter extends AbstractAdapter<String, StepAdapter.MaterialHol
     }
 
     @Override
-    protected MaterialHolder getHolder(View v) {
+    public MaterialHolder getHolder(View v) {
         return new MaterialHolder(v);
     }
 
     @Override
-    protected int getView() {
+    public int getView() {
         return R.layout.item_listview_step;
     }
 
     @Override
-    protected void bindEvent(MaterialHolder holder, int position) {
+    public void bindEvent(MaterialHolder holder, int position) {
         String oriStr = data.get(position);
         final String[] strings = oriStr.split("=====");
         holder.decription.setText("步骤" + (position + 1) + "、" + strings[0]);
@@ -53,7 +54,7 @@ public class StepAdapter extends AbstractAdapter<String, StepAdapter.MaterialHol
     }
 
 
-    protected class MaterialHolder extends BaseHolder {
+    public class MaterialHolder extends BaseHolder {
         @BindView(R.id.iv_step)
         ImageView image;
         @BindView(R.id.tv_step_description)
