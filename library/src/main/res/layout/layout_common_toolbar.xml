@@ -8,7 +8,7 @@
         android:id="@+id/toolbar_content_rlyt"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/bg_toolbar">
+        android:background="@color/colorThemeI">
 
         <ImageButton
             android:id="@+id/toolbar_left_btn"

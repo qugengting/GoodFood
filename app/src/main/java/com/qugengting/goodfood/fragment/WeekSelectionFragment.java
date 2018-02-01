@@ -1,14 +1,19 @@
-package com.qugengting.goodfood;
+package com.qugengting.goodfood.fragment;
 
 import android.app.ProgressDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.Window;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.common.library.fragment.BaseFragment;
 import com.common.library.pullableview.PullToRefreshLayout;
 import com.common.library.pullableview.PullableListView;
 import com.common.library.util.Utils;
+import com.qugengting.goodfood.MainActivity;
+import com.qugengting.goodfood.R;
 import com.qugengting.goodfood.adapter.WeekSelectionAdapter;
 
 import org.jsoup.Connection;
@@ -19,15 +24,22 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by xuruibin on 2018/2/1.
+ * 描述：
+ */
+
+public class WeekSelectionFragment extends BaseFragment {
     @BindView(R.id.lv_meishi)
     PullableListView listView;
     @BindView(R.id.refresh_view)
@@ -43,17 +55,20 @@ public class MainActivity extends AppCompatActivity {
     private String mNextPageUrl = "";
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36";
 
+    private Unbinder unbinder;
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_first);
-        ButterKnife.bind(this);
-        listView.setCanPullDown(false);
-        adapter = new WeekSelectionAdapter(this, list);
-        listView.setAdapter(adapter);
-        ptrl.setOnRefreshListener(new MyRefreshListener());
-        start(null);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (view == null) {
+            view = inflater.inflate(R.layout.activity_first, container, false);
+            unbinder = ButterKnife.bind(this, view);
+            listView.setCanPullDown(false);
+            adapter = new WeekSelectionAdapter(getActivity(), list);
+            listView.setAdapter(adapter);
+            ptrl.setOnRefreshListener(new MyRefreshListener());
+            start(null);
+        }
+        return view;
     }
 
     public class MyRefreshListener implements PullToRefreshLayout.OnRefreshListener {
@@ -71,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void start(final PullToRefreshLayout pullToRefreshLayout) {
         if (isFirstIn) {
-            dialog = new ProgressDialog(this);
+            dialog = new ProgressDialog(getContext());
             dialog.setMessage("加载中...");
             dialog.show();
         }
@@ -103,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         if (pullToRefreshLayout != null) {
                             pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
                         }
-                        Utils.makeText(MainActivity.this, "网络错误");
+                        Utils.makeText(WeekSelectionFragment.this.getActivity(), "网络错误");
                     }
 
                     @Override
@@ -159,5 +174,11 @@ public class MainActivity extends AppCompatActivity {
             return ERROR;
         }
         return OK;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

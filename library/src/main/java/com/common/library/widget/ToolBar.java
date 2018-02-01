@@ -2,6 +2,7 @@ package com.common.library.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -142,6 +143,13 @@ public class ToolBar extends LinearLayout {
         if (rightResId != -1) {
             rightBtn.setBackgroundResource(rightResId);
         }
+        if (backgroundResId != -1) {
+            barLayoutView.setBackgroundResource(backgroundResId);
+        }
+    }
+
+    public void setLeftBtnSrc(int resId) {
+        leftBtn.setImageResource(resId);
     }
 
     public void setLeftBtnClickListener(OnClickListener listener) {

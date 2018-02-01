@@ -2,4 +2,14 @@
 <resources>
     <!--标题栏颜色-->
     <color name="bg_toolbar">#03a9f4</color>
+    <color name="colorThemeI">#ffce3d3a</color>
+    <color name="colorThemeII">#00275e</color>
+
+    <color name="grey_e">#eeeeee</color>
+    <color name="grey_7">#777777</color>
+    <color name="grey_tab_text">#585858</color>
+    <!--页面背景的颜色-->
+    <color name="colorPageBg">#f2f4f5</color>
+    <!--item的水波纹颜色-->
+    <color name="itemBackgroundWhite">#cfff</color>
 </resources>
