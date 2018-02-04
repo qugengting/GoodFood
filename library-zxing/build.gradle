@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion "26.0.1"
+    compileSdkVersion rootProject.ext.compileSdk
+    buildToolsVersion rootProject.ext.buildTools
 
     defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 20
+        minSdkVersion rootProject.ext.minSdk//也可以支持16级以上的不过页面跳转效果就没有了，透明状态栏也没有。
+        targetSdkVersion rootProject.ext.targetSdk
         versionCode 1
         versionName "1.0"
 
