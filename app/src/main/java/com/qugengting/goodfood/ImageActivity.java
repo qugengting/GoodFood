@@ -19,11 +19,13 @@ import com.common.library.net.NetWorkRetrofit;
 import com.common.library.net.bean.ReturnResult;
 import com.common.library.util.Utils;
 import com.google.gson.Gson;
+import com.qugengting.goodfood.bean.ImageDateItem;
 import com.qugengting.goodfood.eventbus.ImageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,8 +88,31 @@ public class ImageActivity extends AppCompatActivity {
     public void receiveGetImageEvent(ImageEvent event) {
         if (event != null) {
             mFileName = event.getImageTitle();
-            getImage();
+            getImageFromLocal();
         }
+    }
+
+    private void getImageFromLocal() {
+//        viewPages.clear();
+//        adapter.notifyDataSetChanged();
+        ImageDateItem imageDateItem = DataSupport.where("imageDateName = ?", mFileName).findFirst(ImageDateItem.class);
+        if (imageDateItem != null) {
+            List<String> list = imageDateItem.getImageList();
+            for (int i = 0; i < list.size(); i++) {
+                LayoutInflater inflater = LayoutInflater.from(ImageActivity.this);
+                View view = inflater.inflate(R.layout.view_image, null);
+                viewPages.add(view);
+            }
+            adapter.notifyDataSetChanged();
+            for (int i = 0; i < viewPages.size(); i++) {
+                View view = viewPages.get(i);
+                ImageView imageView = view.findViewById(R.id.iv_haha);
+                Glide.with(ImageActivity.this).load(list.get(i)).into(imageView);
+            }
+        } else {
+            Utils.makeText(this, "找不到文件");
+        }
+
     }
 
     private void getImage() {

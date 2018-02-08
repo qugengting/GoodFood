@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import com.common.library.fragment.BaseFragment;
 import com.common.library.fragment.BaseFragmentAdapter;
 import com.common.library.fragment.CustomViewPager;
+import com.common.library.util.SharedPreferencesUtils;
 import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
 import com.qugengting.goodfood.adapter.ImageTitleAdapter;
@@ -105,6 +106,7 @@ public class TestActivity extends AppCompatActivity {
                 if (n < 1500) {
                     clickTime = 0;
                     Intent intent = new Intent(this, ImageTitleActivity.class);
+
                     startActivity(intent);
                 } else {
                     clickTime = 0;
@@ -120,21 +122,25 @@ public class TestActivity extends AppCompatActivity {
 
     private static final String LOCAL_IMAGE = "本地图片";
     private static final String NET_IMAGE = "网络图片";
-    private boolean isNetImage = true;
 
     private void initRadioGroup() {
         rbLocal.setText(LOCAL_IMAGE);
         rbNet.setText(NET_IMAGE);
-        radioGroup.check(R.id.rb_net);
+        boolean isNetRes = (boolean) SharedPreferencesUtils.getData(this, SharePreferentsConstants.IMAGE_RES_KEY, false);
+        if (isNetRes) {
+            radioGroup.check(R.id.rb_net);
+        } else {
+            radioGroup.check(R.id.rb_local);
+        }
         radioGroup.setHorizontalSpacing(12);
         radioGroup.setVerticalSpacing(8);
         radioGroup.setListener(new CustomRadioGroup.OnclickListener() {
             @Override
             public void OnText(String text) {
                 if (text.equals(LOCAL_IMAGE)) {
-                    isNetImage = false;
+                    SharedPreferencesUtils.putData(TestActivity.this, SharePreferentsConstants.IMAGE_RES_KEY, false);
                 } else {
-                    isNetImage = true;
+                    SharedPreferencesUtils.putData(TestActivity.this, SharePreferentsConstants.IMAGE_RES_KEY, true);
                 }
 
             }
