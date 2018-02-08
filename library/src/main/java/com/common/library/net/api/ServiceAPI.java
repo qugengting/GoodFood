@@ -29,9 +29,16 @@ public interface ServiceAPI {
     @POST("file/onefile")
     Observable<ReturnResult> uploadImage(@Part() MultipartBody.Part file);//单张图片上传
 
-    @GET("file/imagelist")
-    Observable<ReturnResult> getImageList();
     //登录
     @GET("jsontest/login")
     Observable<ReturnResult> login(@Query("account") String shopName, @Query("password") String staffName);
+
+    @GET("jsontest/getImageList")
+    Observable<ReturnResult> getImageList(@Query("fileName") String fileName);
+
+    @GET("jsontest/initImages")
+    Observable<ReturnResult> initImages();
+
+    @GET("jsontest/getImageTitles")
+    Observable<ReturnResult> getImageTitles();
 }

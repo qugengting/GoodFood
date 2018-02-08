@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class NetWorkRetrofit {
-    public static final String BASE_URL = "http://172.17.122.209:8080/ssm-crud-myexercise/";
+    public static final String BASE_URL = "http://172.20.106.45:8080/ssm-crud-myexercise/";
     /**
      * okhttp3拦截器，需增加依赖compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'，
      * 看起来好像没有自定义{@link LoggingInterceptor}的好用

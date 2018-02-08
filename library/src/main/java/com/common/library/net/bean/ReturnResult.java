@@ -14,6 +14,16 @@ public class ReturnResult {
 
     private List<String> list;
 
+    private List<ReturnResultItem> itemList;
+
+    public List<ReturnResultItem> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<ReturnResultItem> itemList) {
+        this.itemList = itemList;
+    }
+
     public List<String> getList() {
         return list;
     }
