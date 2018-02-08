@@ -1,6 +1,7 @@
 package com.qugengting.goodfood;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.common.library.util.Utils;
+import com.common.library.util.systembar.SystemBarUtils;
 import com.common.library.widget.GridViewForScrollView;
 import com.common.library.widget.ListViewForScrollView;
 import com.common.library.widget.ToolBar;
@@ -62,6 +64,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        SystemBarUtils.setTranslucentStatus(this, Color.parseColor("#ffce3d3a"));
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
         toolBar.setLeftBtnClickListener(new View.OnClickListener() {

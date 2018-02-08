@@ -10,28 +10,9 @@ import android.view.ViewGroup;
 
 import com.common.library.fragment.BaseFragment;
 import com.common.library.pullableview.PullToRefreshLayout;
-import com.common.library.pullableview.PullableListView;
-import com.common.library.util.Utils;
-import com.qugengting.goodfood.MainActivity;
 import com.qugengting.goodfood.R;
-import com.qugengting.goodfood.adapter.WeekSelectionAdapter;
-
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by xuruibin on 2018/2/1.

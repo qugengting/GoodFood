@@ -12,7 +12,6 @@ import com.common.library.fragment.BaseFragment;
 import com.common.library.pullableview.PullToRefreshLayout;
 import com.common.library.pullableview.PullableListView;
 import com.common.library.util.Utils;
-import com.qugengting.goodfood.MainActivity;
 import com.qugengting.goodfood.R;
 import com.qugengting.goodfood.adapter.WeekSelectionAdapter;
 
@@ -24,7 +23,6 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +44,7 @@ public class WeekSelectionFragment extends BaseFragment {
     PullToRefreshLayout ptrl;
     protected ProgressDialog dialog;
     private WeekSelectionAdapter adapter;
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = WeekSelectionFragment.class.getSimpleName();
     private List<String> list = new ArrayList<>();
     private static final String OK = "ok";
     private static final String ERROR = "error";
@@ -60,7 +58,7 @@ public class WeekSelectionFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
-            view = inflater.inflate(R.layout.activity_first, container, false);
+            view = inflater.inflate(R.layout.fragment_week_selection, container, false);
             unbinder = ButterKnife.bind(this, view);
             listView.setCanPullDown(false);
             adapter = new WeekSelectionAdapter(getActivity(), list);
@@ -180,5 +178,14 @@ public class WeekSelectionFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            dialog.cancel();
+            dialog = null;
+        }
     }
 }
