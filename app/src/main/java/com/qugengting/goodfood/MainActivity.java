@@ -12,13 +12,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
 
+import com.common.gif.GifActivity;
 import com.common.library.fragment.BaseFragment;
 import com.common.library.fragment.BaseFragmentAdapter;
 import com.common.library.fragment.CustomViewPager;
 import com.common.library.util.SharedPreferencesUtils;
 import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
-import com.qugengting.goodfood.adapter.ImageTitleAdapter;
 import com.qugengting.goodfood.fragment.SeasonHotFragment;
 import com.qugengting.goodfood.fragment.WeekSelectionFragment;
 
@@ -34,7 +34,7 @@ import butterknife.OnClick;
  * 描述：
  */
 
-public class TestActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     ToolBar toolBar;
     @BindView(R.id.rg_image)
@@ -120,6 +120,12 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.tv_gif_scan)
+    public void lookGif() {
+        Intent intent = new Intent(this, GifActivity.class);
+        startActivity(intent);
+    }
+
     private static final String LOCAL_IMAGE = "本地图片";
     private static final String NET_IMAGE = "网络图片";
 
@@ -138,9 +144,9 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void OnText(String text) {
                 if (text.equals(LOCAL_IMAGE)) {
-                    SharedPreferencesUtils.putData(TestActivity.this, SharePreferentsConstants.IMAGE_RES_KEY, false);
+                    SharedPreferencesUtils.putData(MainActivity.this, SharePreferentsConstants.IMAGE_RES_KEY, false);
                 } else {
-                    SharedPreferencesUtils.putData(TestActivity.this, SharePreferentsConstants.IMAGE_RES_KEY, true);
+                    SharedPreferencesUtils.putData(MainActivity.this, SharePreferentsConstants.IMAGE_RES_KEY, true);
                 }
 
             }

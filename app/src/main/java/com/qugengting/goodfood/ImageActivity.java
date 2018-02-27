@@ -43,8 +43,6 @@ import rx.schedulers.Schedulers;
 
 public class ImageActivity extends AppCompatActivity {
     private static final String TAG = ImageActivity.class.getSimpleName();
-    @BindView(R.id.iv_heihei)
-    ImageView imageView;
     @BindView(R.id.vp_images)
     ViewPager vp;
     private List<View> viewPages = new ArrayList<>();

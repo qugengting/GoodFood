@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.library.R;
@@ -42,6 +43,7 @@ public class ToolBar extends LinearLayout {
 
     private TextView leftTv;
     private TextView rightTv;
+    private TextView titleTv;
 
     public TextView getRightTv1() {
         return rightTv1;
@@ -50,6 +52,7 @@ public class ToolBar extends LinearLayout {
     private TextView rightTv1;
 
     private int backgroundResId;
+    private RelativeLayout layout;
 
     public ToolBar(Context context) {
         this(context, null);
@@ -105,9 +108,10 @@ public class ToolBar extends LinearLayout {
 
         /**-------------设置内容------------*/
         View barLayoutView = LayoutInflater.from(context).inflate(R.layout.layout_common_toolbar, this);
+        layout = barLayoutView.findViewById(R.id.toolbar_content_rlyt);
         leftBtn = (ImageButton) barLayoutView.findViewById(R.id.toolbar_left_btn);
         leftTv = (TextView) barLayoutView.findViewById(R.id.toolbar_left_tv);
-        TextView titleTv = (TextView) barLayoutView.findViewById(R.id.toolbar_title_tv);
+        titleTv = (TextView) barLayoutView.findViewById(R.id.toolbar_title_tv);
         rightBtn = (Button) barLayoutView.findViewById(R.id.toolbar_right_btn);
         rightTv = (TextView) barLayoutView.findViewById(R.id.toolbar_right_tv);
         rightTv1 = (TextView) barLayoutView.findViewById(R.id.toolbar_right1_tv);
@@ -144,6 +148,7 @@ public class ToolBar extends LinearLayout {
             rightBtn.setBackgroundResource(rightResId);
         }
         if (backgroundResId != -1) {
+            layout.setBackgroundResource(backgroundResId);
             barLayoutView.setBackgroundResource(backgroundResId);
         }
     }
@@ -196,5 +201,9 @@ public class ToolBar extends LinearLayout {
             rightTv.setVisibility(GONE);
             rightTv1.setVisibility(GONE);
         }
+    }
+
+    public void setTitle(String title) {
+        titleTv.setText(title);
     }
 }

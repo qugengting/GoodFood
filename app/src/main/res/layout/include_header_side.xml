@@ -46,6 +46,16 @@
             android:text="我的收藏"
             android:textColor="@color/grey_7"
             android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_gif_scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:text="GIF图片观赏"
+            android:textColor="@color/textview_press_bg"
+            android:textSize="15sp" />
     </LinearLayout>
 
 

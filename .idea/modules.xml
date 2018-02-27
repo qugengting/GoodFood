@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/GoodFood.iml" filepath="$PROJECT_DIR$/GoodFood.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-gif/library-gif.iml" filepath="$PROJECT_DIR$/library-gif/library-gif.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-zxing/library-zxing.iml" filepath="$PROJECT_DIR$/library-zxing/library-zxing.iml" />
     </modules>
   </component>
