@@ -233,7 +233,7 @@ public class GifActivity extends AppCompatActivity implements View.OnClickListen
     public void saveImage() {
         String name = DateUtils.longToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
 //        File file = new File(getExternalCacheDir() + File.separator + name + ".jpg");
-        String path = Environment.getExternalStorageDirectory() + File.separator + "goodfood" + File.separator;
+        String path = getExternalCacheDir() + File.separator;
         File file = new File(path);
         File targetFile = new File(path + name + ".jpg");
         int currentItem = mViewPager.getCurrentItem();

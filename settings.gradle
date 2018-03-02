@@ -1,1 +1,1 @@
-include ':app', ':library', ':library-zxing', ':library-gif'
+include ':app', ':library', ':library-zxing', ':library-gif', ':system-calendar'
