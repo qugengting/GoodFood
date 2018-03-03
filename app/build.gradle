@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 android {
     compileSdkVersion rootProject.ext.compileSdk
     buildToolsVersion rootProject.ext.buildTools
@@ -24,10 +23,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     testCompile 'junit:junit:4.12'
     compile 'org.jsoup:jsoup:1.9.2'
     compile project(':library')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.10'
+    compile "com.android.support:appcompat-v7:26.0.2"
+    compile "com.android.support:design:26.0.2"
     compile project(':library-gif')
 }

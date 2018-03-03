@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-gif/library-gif.iml" filepath="$PROJECT_DIR$/library-gif/library-gif.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-zxing/library-zxing.iml" filepath="$PROJECT_DIR$/library-zxing/library-zxing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/system-calendar/system-calendar.iml" filepath="$PROJECT_DIR$/system-calendar/system-calendar.iml" />
     </modules>
   </component>
 </project>
