@@ -47,6 +47,7 @@ dependencies {
 //    compile 'com.android.support:appcompat-v7:26.0.2'
 //    compile files('libs/android-support-v4.jar')
     compile 'org.litepal.android:core:1.6.1'
-    //数据库
     compile files('libs/pinyin4j-2.5.0.jar')
+    //图片压缩框架https://github.com/Curzibn/Luban
+    compile 'top.zibin:Luban:1.1.3'
 }

@@ -1,8 +1,10 @@
 package com.common.gif;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -57,6 +59,7 @@ public class GifActivity extends AppCompatActivity implements View.OnClickListen
     private List<View> mViewList = new ArrayList<>();
     private PagerAdapter mPagerAdapter;
     private GifFramebyFrameAdapter mGifFramebyFrameAdapter;
+    private boolean isLocalGif;
     private int[] resIds = new int[]{R.drawable.liutaoloudian, R.drawable.shuili, R.drawable.xiashuiloudian};
     private List<BitmapIndexWrapper> mBitmapWrapperList = new ArrayList<>();
 
@@ -132,17 +135,30 @@ public class GifActivity extends AppCompatActivity implements View.OnClickListen
 
     private void initImages() {
         LayoutInflater inflater = LayoutInflater.from(GifActivity.this);
-        for (int i = 0; i < resIds.length; i++) {
+        Intent intent = getIntent();
+        isLocalGif = intent.getBooleanExtra("isLocalGif", false);
+        if (isLocalGif) {
+            Uri gifUri = intent.getParcelableExtra("gifUri");
             View view = inflater.inflate(R.layout.view_gif_image, null);
             mViewList.add(view);
-        }
-        mPagerAdapter.notifyDataSetChanged();
-        for (int i = 0; i < resIds.length; i++) {
-            View view = mViewList.get(i);
+            mPagerAdapter.notifyDataSetChanged();
             GifImageView imageView = view.findViewById(R.id.gif_imageview);
-            imageView.setImageResource(resIds[i]);
+            imageView.setImageURI(gifUri);
             imageView.setOnClickListener(this);
+        } else {
+            for (int i = 0; i < resIds.length; i++) {
+                View view = inflater.inflate(R.layout.view_gif_image, null);
+                mViewList.add(view);
+            }
+            mPagerAdapter.notifyDataSetChanged();
+            for (int i = 0; i < mViewList.size(); i++) {
+                View view = mViewList.get(i);
+                GifImageView imageView = view.findViewById(R.id.gif_imageview);
+                imageView.setImageResource(resIds[i]);
+                imageView.setOnClickListener(this);
+            }
         }
+
         toolBar.setTitle("1 / " + mViewList.size());
     }
 

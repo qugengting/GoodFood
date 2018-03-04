@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical" >
+
+    <com.common.library.widget.ToolBar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:left_btn_visible="true"
+        app:right_tv_text="取消"
+        app:right_tv_visible="true"
+        app:title_visible="true" />
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_margin="2dp"
+        android:layout_weight="1"
+        android:horizontalSpacing="2dp"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:verticalSpacing="2dp" >
+    </GridView>
+
+    <RelativeLayout
+        android:id="@+id/bottom_linear"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="#f9f9f9" >
+
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="35dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dip"
+            android:background="@drawable/btn_bottom_pic_send_unselect"
+            android:minWidth="80dip"
+            android:text="提 交"
+            android:textColor="#000000" />
+
+        <CheckBox
+            android:id="@+id/mapCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:button="@drawable/radio_btn"
+            android:text="原图"
+            android:textColor="#108bff" />
+        <TextView
+            android:id="@+id/submit_btn_cover"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dip"
+            android:background="@drawable/bg_list_noti_single"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>

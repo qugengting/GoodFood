@@ -1,22 +1,32 @@
 package com.qugengting.goodfood;
 
+import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 
+import com.bumptech.glide.Glide;
 import com.common.gif.GifActivity;
+import com.common.library.file.ImageChooserActivity;
 import com.common.library.fragment.BaseFragment;
 import com.common.library.fragment.BaseFragmentAdapter;
 import com.common.library.fragment.CustomViewPager;
+import com.common.library.permission.MPermissionsActivity;
 import com.common.library.util.SharedPreferencesUtils;
+import com.common.library.util.UriUtils;
+import com.common.library.util.Utils;
 import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
 import com.qugengting.goodfood.fragment.SeasonHotFragment;
@@ -34,7 +44,7 @@ import butterknife.OnClick;
  * 描述：
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MPermissionsActivity {
     @BindView(R.id.toolbar)
     ToolBar toolBar;
     @BindView(R.id.rg_image)
@@ -49,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     @BindView(R.id.vp_content)
     CustomViewPager viewPager;
+    @BindView(R.id.iv_logo)
+    ImageView ivLogo;
     private BaseFragmentAdapter adapter;
 
 
@@ -79,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
         initRadioGroup();
+        Glide.with(this).load(R.drawable.girl).into(ivLogo);
     }
 
     @Override
@@ -114,8 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else {
-            Intent intent = new Intent(this, ImageTitleActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, ImageTitleActivity.class);
+//            startActivity(intent);
+            requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II);
         }
 
     }
@@ -125,6 +139,90 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GifActivity.class);
         startActivity(intent);
     }
+
+    @OnClick(R.id.tv_gif_local)
+    public void localGif() {
+        requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_I);
+    }
+
+    @Override
+    public void permissionSuccess(int requestCode) {
+        super.permissionSuccess(requestCode);
+        if (requestCode == REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_I) {
+            goToSystemImageChooseActivity();
+        } else if (requestCode == REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II) {
+            goToCustomImageChooseActivity();
+        }
+
+    }
+
+    private void goToSystemImageChooseActivity() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, CODE_CHOOSE_IMAGE);
+    }
+
+    private void goToCustomImageChooseActivity() {
+        Intent intent = new Intent(this, ImageChooserActivity.class);
+        intent.putExtra("maxCount", 5);
+        startActivityForResult(intent, CODE_CHOOSE_PHOTO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CODE_CHOOSE_IMAGE) {
+                mGifFilePath = UriUtils.getFileAbsolutePath(this, data.getData());
+                Log.i(TAG, "gif file path : " + mGifFilePath);
+                if (mGifFilePath.endsWith(".gif")) {
+                    mGifUri = data.getData();
+                    Intent intent = new Intent(this, GifActivity.class);
+                    intent.putExtra("isLocalGif", true);
+                    intent.putExtra("gifUri", mGifUri);
+                    startActivity(intent);
+                } else {
+                    Utils.makeText(this, "只能选择gif图片");
+                }
+            } else if (requestCode == CODE_CHOOSE_PHOTO) {
+                listPhotos = data.getStringArrayListExtra("path");
+                if (handler == null) {
+                    handler = new MyHandler();
+                }
+                handler.sendEmptyMessage(WHAT_SHOW_IMAGE);
+            }
+        }
+    }
+
+    private class MyHandler extends Handler {
+        int count = 0;
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (count < listPhotos.size()) {
+                String imagePath = listPhotos.get(count);
+                Glide.with(MainActivity.this).load(imagePath).into(ivLogo);
+                count++;
+                sendEmptyMessageDelayed(WHAT_SHOW_IMAGE, DURATION_PER_IMAGE_SHOW);
+            } else if (count == listPhotos.size()) {
+                Glide.with(MainActivity.this).load(R.drawable.girl).into(ivLogo);
+                count = 0;
+            }
+        }
+    }
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private MyHandler handler;
+    private static final int CODE_CHOOSE_IMAGE = 1011;//系统图片浏览
+    private static final int CODE_CHOOSE_PHOTO = 1012;//自定义图片浏览
+    private static final int DURATION_PER_IMAGE_SHOW = 2000;
+    private static final int WHAT_SHOW_IMAGE = 1013;
+    private static final int REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_I = 0x0005;
+    private static final int REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II = 0x0006;
+    private String mGifFilePath;
+    private Uri mGifUri;
+    private List<String> listPhotos;
 
     private static final String LOCAL_IMAGE = "本地图片";
     private static final String NET_IMAGE = "网络图片";
@@ -172,5 +270,14 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            handler = null;
+        }
     }
 }

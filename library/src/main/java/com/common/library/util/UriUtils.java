@@ -77,11 +77,15 @@ public class UriUtils {
                 int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 return cursor.getString(index);
             }
+        } catch (Exception e) {
+            //android6.0以上手机如果没有申请访问SD卡权限,会报错
+            e.printStackTrace();
+            return "";
         } finally {
             if (cursor != null)
                 cursor.close();
         }
-        return null;
+        return "";
     }
 
     /**

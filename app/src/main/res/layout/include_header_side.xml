@@ -14,8 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="415dp"
             android:clickable="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/girl" />
+            android:scaleType="centerCrop" />
 
         <com.common.library.widget.CustomRadioGroup
             android:id="@+id/rg_image"
@@ -54,6 +53,16 @@
             android:layout_marginTop="10dp"
             android:paddingLeft="16dp"
             android:text="GIF图片观赏"
+            android:textColor="@color/textview_press_bg"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_gif_local"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:text="本地GIF图片"
             android:textColor="@color/textview_press_bg"
             android:textSize="15sp" />
     </LinearLayout>
