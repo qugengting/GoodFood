@@ -8,4 +8,6 @@ package com.qugengting.goodfood;
 public class SharePreferentsConstants {
     public static final String IMAGE_RES_KEY = "image_res_key";
 
+    public static final String IMAGE_CHOOSE_KEY = "image_choose_key";
+
 }

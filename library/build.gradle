@@ -50,4 +50,5 @@ dependencies {
     compile files('libs/pinyin4j-2.5.0.jar')
     //图片压缩框架https://github.com/Curzibn/Luban
     compile 'top.zibin:Luban:1.1.3'
+    compile 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
 }

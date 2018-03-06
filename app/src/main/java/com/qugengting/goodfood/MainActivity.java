@@ -38,6 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.iwf.photopicker.PhotoPicker;
 
 /**
  * Created by xuruibin on 2018/2/1.
@@ -151,7 +152,12 @@ public class MainActivity extends MPermissionsActivity {
         if (requestCode == REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_I) {
             goToSystemImageChooseActivity();
         } else if (requestCode == REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II) {
-            goToCustomImageChooseActivity();
+            boolean isChooseCustom = (boolean) SharedPreferencesUtils.getData(this, SharePreferentsConstants.IMAGE_CHOOSE_KEY, false);
+            if (isChooseCustom) {
+                goToCustomImageChooseActivity();
+            } else {
+                goToPhotoPicker();
+            }
         }
 
     }
@@ -167,6 +173,15 @@ public class MainActivity extends MPermissionsActivity {
         Intent intent = new Intent(this, ImageChooserActivity.class);
         intent.putExtra("maxCount", 5);
         startActivityForResult(intent, CODE_CHOOSE_PHOTO);
+    }
+
+    private void goToPhotoPicker() {
+        PhotoPicker.builder()
+                .setPhotoCount(9)
+                .setShowCamera(true)
+                .setShowGif(true)
+                .setPreviewEnabled(false)
+                .start(MainActivity.this, PhotoPicker.REQUEST_CODE);
     }
 
     @Override
@@ -187,6 +202,12 @@ public class MainActivity extends MPermissionsActivity {
                 }
             } else if (requestCode == CODE_CHOOSE_PHOTO) {
                 listPhotos = data.getStringArrayListExtra("path");
+                if (handler == null) {
+                    handler = new MyHandler();
+                }
+                handler.sendEmptyMessage(WHAT_SHOW_IMAGE);
+            } else if (requestCode == PhotoPicker.REQUEST_CODE) {
+                listPhotos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
                 if (handler == null) {
                     handler = new MyHandler();
                 }
@@ -224,8 +245,8 @@ public class MainActivity extends MPermissionsActivity {
     private Uri mGifUri;
     private List<String> listPhotos;
 
-    private static final String LOCAL_IMAGE = "本地图片";
-    private static final String NET_IMAGE = "网络图片";
+    private static final String LOCAL_IMAGE = "本地图片/自定义";
+    private static final String NET_IMAGE = "网络图片/第三方";
 
     private void initRadioGroup() {
         rbLocal.setText(LOCAL_IMAGE);
@@ -235,6 +256,7 @@ public class MainActivity extends MPermissionsActivity {
             radioGroup.check(R.id.rb_net);
         } else {
             radioGroup.check(R.id.rb_local);
+            SharedPreferencesUtils.putData(MainActivity.this, SharePreferentsConstants.IMAGE_CHOOSE_KEY, true);
         }
         radioGroup.setHorizontalSpacing(12);
         radioGroup.setVerticalSpacing(8);
@@ -243,8 +265,10 @@ public class MainActivity extends MPermissionsActivity {
             public void OnText(String text) {
                 if (text.equals(LOCAL_IMAGE)) {
                     SharedPreferencesUtils.putData(MainActivity.this, SharePreferentsConstants.IMAGE_RES_KEY, false);
+                    SharedPreferencesUtils.putData(MainActivity.this, SharePreferentsConstants.IMAGE_CHOOSE_KEY, true);
                 } else {
                     SharedPreferencesUtils.putData(MainActivity.this, SharePreferentsConstants.IMAGE_RES_KEY, true);
+                    SharedPreferencesUtils.putData(MainActivity.this, SharePreferentsConstants.IMAGE_CHOOSE_KEY, false);
                 }
 
             }
