@@ -28,7 +28,5 @@ dependencies {
     compile 'org.jsoup:jsoup:1.9.2'
     compile project(':library')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.10'
-    compile "com.android.support:appcompat-v7:26.0.2"
-    compile "com.android.support:design:26.0.2"
     compile project(':library-gif')
 }

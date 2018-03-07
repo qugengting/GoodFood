@@ -27,7 +27,7 @@
         <activity android:name="com.common.gif.GifActivity" />
         <activity android:name="com.common.library.file.ImageChooserActivity" />
         <activity android:name="com.common.library.file.ImageGridActivity" />
-
+        <activity android:name=".LargeImageViewActivity" />
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -35,6 +35,10 @@
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <meta-data
+            android:name="com.qugengting.goodfood.glide.MyGlideModule"
+            android:value="GlideModule" />
     </application>
 
 </manifest>

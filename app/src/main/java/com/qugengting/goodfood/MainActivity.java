@@ -31,6 +31,7 @@ import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
 import com.qugengting.goodfood.fragment.SeasonHotFragment;
 import com.qugengting.goodfood.fragment.WeekSelectionFragment;
+import com.shizhefei.view.largeimage.LargeImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.ColorFilterTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import jp.wasabeef.glide.transformations.CropSquareTransformation;
+import jp.wasabeef.glide.transformations.CropTransformation;
+import jp.wasabeef.glide.transformations.GrayscaleTransformation;
+import jp.wasabeef.glide.transformations.gpu.SketchFilterTransformation;
 import me.iwf.photopicker.PhotoPicker;
 
 /**
@@ -92,7 +100,8 @@ public class MainActivity extends MPermissionsActivity {
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
         initRadioGroup();
-        Glide.with(this).load(R.drawable.girl).into(ivLogo);
+        //经测试，三种Transform比较有用BlurTransformation——模糊化，GrayscaleTransformation——灰化和CropCircleTransformation——圆角化
+        Glide.with(this).load(R.drawable.girl).bitmapTransform(new BlurTransformation(this, 25)).into(ivLogo);
     }
 
     @Override
@@ -273,6 +282,12 @@ public class MainActivity extends MPermissionsActivity {
 
             }
         });
+    }
+
+    @OnClick(R.id.tv_collection)
+    public void glideTest() {
+        Intent intent = new Intent(this, LargeImageViewActivity.class);
+        startActivity(intent);
     }
 
     /**
