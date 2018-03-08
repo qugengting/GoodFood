@@ -1,3 +1,5 @@
 AsyncTask写法     ——package com.common.library.file.ImageGridActivity.MyTask
 Luban图片压缩     ——同上
 List排序，Collections.sort         ——同上
+大图显示          ——package com.common.library.image.LargeImageViewActivity
+glide添加下载进度及获取下载路径      ——同上

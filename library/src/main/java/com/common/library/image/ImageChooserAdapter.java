@@ -1,4 +1,4 @@
-package com.common.library.file;
+package com.common.library.image;
 
 import android.content.Context;
 import android.view.View;

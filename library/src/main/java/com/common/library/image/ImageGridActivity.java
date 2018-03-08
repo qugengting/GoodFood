@@ -1,4 +1,4 @@
-package com.common.library.file;
+package com.common.library.image;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -33,11 +33,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import top.zibin.luban.Luban;
 
 /**

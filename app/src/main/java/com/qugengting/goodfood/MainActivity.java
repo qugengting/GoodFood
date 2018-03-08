@@ -19,10 +19,11 @@ import android.widget.RadioButton;
 
 import com.bumptech.glide.Glide;
 import com.common.gif.GifActivity;
-import com.common.library.file.ImageChooserActivity;
+import com.common.library.image.ImageChooserActivity;
 import com.common.library.fragment.BaseFragment;
 import com.common.library.fragment.BaseFragmentAdapter;
 import com.common.library.fragment.CustomViewPager;
+import com.common.library.image.LargeImageViewActivity;
 import com.common.library.permission.MPermissionsActivity;
 import com.common.library.util.SharedPreferencesUtils;
 import com.common.library.util.UriUtils;
@@ -31,7 +32,6 @@ import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
 import com.qugengting.goodfood.fragment.SeasonHotFragment;
 import com.qugengting.goodfood.fragment.WeekSelectionFragment;
-import com.shizhefei.view.largeimage.LargeImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +40,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.ColorFilterTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import jp.wasabeef.glide.transformations.CropSquareTransformation;
-import jp.wasabeef.glide.transformations.CropTransformation;
-import jp.wasabeef.glide.transformations.GrayscaleTransformation;
-import jp.wasabeef.glide.transformations.gpu.SketchFilterTransformation;
 import me.iwf.photopicker.PhotoPicker;
 
 /**

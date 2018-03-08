@@ -1,5 +1,6 @@
-package com.qugengting.goodfood;
+package com.common.library.image;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,9 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
+import com.common.library.R;
+import com.common.library.glide.ProgressInterceptor;
+import com.common.library.glide.ProgressListener;
 import com.common.library.util.systembar.SystemBarUtils;
 import com.common.library.widget.ToolBar;
 import com.shizhefei.view.largeimage.LargeImageView;
@@ -23,38 +27,45 @@ import com.shizhefei.view.largeimage.factory.FileBitmapDecoderFactory;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
 /**
  * Created by xuruibin on 2018/3/7.
  * 描述：
  */
 
 public class LargeImageViewActivity extends AppCompatActivity {
-    private static final String TAG = LargeImageViewActivity.class.getSimpleName();
-    @BindView(R.id.toolbar)
-    ToolBar toolBar;
-    @BindView(R.id.largeview)
-    LargeImageView largeImageView;
+    private ToolBar toolBar;
+    private LargeImageView largeImageView;
+    private String url = "http://img6.3lian.com/c23/desk4/07/01/d/09.jpg";
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         SystemBarUtils.setTranslucentStatus(this, Color.parseColor("#ffce3d3a"));
         setContentView(R.layout.activity_largeimageview);
-        ButterKnife.bind(this);
+        toolBar = findViewById(R.id.toolbar);
+        largeImageView = findViewById(R.id.largeview);
         toolBar.setLeftBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        String url = "http://img6.3lian.com/c23/desk3/11/35/2.jpg";
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMessage("加载中");
+        //添加下载监听
+        ProgressInterceptor.addListener(url, new ProgressListener() {
+            @Override
+            public void onProgress(int progress) {
+                progressDialog.setProgress(progress);
+            }
+        });
+        //方式一：
 //        Glide.with(this)
 //                .load(url)
 //                .downloadOnly(new DownloadImageTarget());
+        //方式二：
         downloadImage();
     }
 
@@ -62,6 +73,7 @@ public class LargeImageViewActivity extends AppCompatActivity {
         private static final String TAG = "DownloadImageTarget";
         @Override
         public void onStart() {
+            progressDialog.show();
         }
         @Override
         public void onStop() {
@@ -74,12 +86,15 @@ public class LargeImageViewActivity extends AppCompatActivity {
         }
         @Override
         public void onLoadFailed(Exception e, Drawable errorDrawable) {
+            progressDialog.dismiss();
         }
         @Override
         public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+            progressDialog.dismiss();
+            ProgressInterceptor.removeListener(url);
+
             Log.d(TAG, resource.getPath());
             largeImageView.setImage(new FileBitmapDecoderFactory(resource));
-
         }
         @Override
         public void onLoadCleared(Drawable placeholder) {
@@ -98,11 +113,11 @@ public class LargeImageViewActivity extends AppCompatActivity {
     }
 
     public void downloadImage() {
+        progressDialog.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String url = "http://img6.3lian.com/c23/desk4/07/01/d/09.jpg";
                     final Context context = getApplicationContext();
                     FutureTarget<File> target = Glide.with(context)
                             .load(url)
@@ -111,6 +126,8 @@ public class LargeImageViewActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            progressDialog.dismiss();
+                            ProgressInterceptor.removeListener(url);
                             largeImageView.setImage(new FileBitmapDecoderFactory(imageFile));
                         }
                     });
