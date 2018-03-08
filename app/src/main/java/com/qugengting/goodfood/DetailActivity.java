@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,17 +19,20 @@ import com.common.library.widget.ListViewForScrollView;
 import com.common.library.widget.ToolBar;
 import com.qugengting.goodfood.adapter.MaterialAdapter;
 import com.qugengting.goodfood.adapter.StepAdapter;
+import com.qugengting.goodfood.bean.GoodFoodFavor;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,7 +52,8 @@ public class DetailActivity extends AppCompatActivity {
     GridViewForScrollView gvMaterial;
     @BindView(R.id.lv_zuofa)
     ListViewForScrollView lvStep;
-
+    @BindView(R.id.ib_favor)
+    ImageButton btnFavor;
     private static final String TAG = DetailActivity.class.getSimpleName();
     private static final String OK = "ok";
     private static final String ERROR = "error";
@@ -59,6 +64,9 @@ public class DetailActivity extends AppCompatActivity {
     private List<String> mListSteps = new ArrayList<>();
     private MaterialAdapter materialAdapter;
     private StepAdapter adapter;
+    private boolean isFavor = false;
+    private GoodFoodFavor favor;
+    private String mHtmlContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +81,44 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+//        btnFavor.setColorNormalResId(R.color.pink);
+//        btnFavor.setColorPressedResId(R.color.pink_pressed);
+//        btnFavor.setIcon(R.drawable.ic_fab_star);
         materialAdapter = new MaterialAdapter(this, mListMaterial);
         gvMaterial.setAdapter(materialAdapter);
         adapter = new StepAdapter(this, mListSteps);
         lvStep.setAdapter(adapter);
         mUrl = getIntent().getStringExtra("detail");
+        favor = DataSupport.where("url = ?", mUrl).findFirst(GoodFoodFavor.class);
+        if (favor != null) {
+            isFavor = true;
+            btnFavor.setBackgroundResource(R.drawable.favor_btn_selector_selected);
+            btnFavor.setImageResource(R.drawable.ic_favor_selected);
+        }
         start();
+    }
+
+    @OnClick(R.id.ib_favor)
+    public void onFavor() {
+        if (isFavor) {//取消收藏
+            btnFavor.setBackgroundResource(R.drawable.favor_btn_selector_normal);
+            btnFavor.setImageResource(R.drawable.ic_favor_unselected);
+            favor.delete();
+            isFavor = false;
+            Utils.makeText(this, "取消收藏成功");
+        } else {
+            //添加收藏
+            if (favor == null) {
+                favor = new GoodFoodFavor();
+            }
+            btnFavor.setBackgroundResource(R.drawable.favor_btn_selector_selected);
+            btnFavor.setImageResource(R.drawable.ic_favor_selected);
+            favor.setHtml(mHtmlContent);
+            favor.setUrl(mUrl);
+            favor.save();
+            isFavor = true;
+            Utils.makeText(this, "添加收藏成功");
+        }
     }
 
 
@@ -130,10 +170,18 @@ public class DetailActivity extends AppCompatActivity {
             long a = System.currentTimeMillis();
             Connection connection;
             Document doc;
-            connection = Jsoup.connect(mUrl);
-            connection.header("User-Agent", USER_AGENT);
-            doc = connection.get();
-//            //“椒麻鸡”和它对应的图片都在<div class="pic">中
+            if (favor != null) {
+                //本地解析
+                doc = Jsoup.parse(favor.getHtml());
+                mHtmlContent = favor.getHtml();
+            } else {
+                //网络获取
+                connection = Jsoup.connect(mUrl);
+                connection.header("User-Agent", USER_AGENT);
+                doc = connection.get();
+                mHtmlContent = doc.html();
+            }
+            //“椒麻鸡”和它对应的图片都在<div class="pic">中
             mTitle = doc.select("h1.recipe_De_title").first().select("a").first().attr("title");
             mImgUrl = doc.getElementById("recipe_De_imgBox").select("a").select("img").attr("src");
             //食材列表

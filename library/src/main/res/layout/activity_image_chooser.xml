@@ -8,7 +8,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:left_btn_visible="false"
+        app:left_btn_visible="true"
         app:right_tv_text="取消"
         app:right_tv_visible="true"
         app:title_text="相册"

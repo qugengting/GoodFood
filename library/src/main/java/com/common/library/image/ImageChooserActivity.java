@@ -95,7 +95,12 @@ public class ImageChooserActivity extends AppCompatActivity {
 				finish();
 			}
 		});
-		
+		toolBar.setLeftBtnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		buckt_list = (ListView) findViewById(R.id.buckt_list);
 		adapter = new ImageChooserAdapter(this, dataList);
 		buckt_list.setAdapter(adapter);
