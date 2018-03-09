@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.common.library.util.DateUtils;
 import com.common.library.util.Utils;
 import com.common.library.util.systembar.SystemBarUtils;
 import com.common.library.widget.GridViewForScrollView;
@@ -20,7 +21,9 @@ import com.common.library.widget.ToolBar;
 import com.qugengting.goodfood.adapter.MaterialAdapter;
 import com.qugengting.goodfood.adapter.StepAdapter;
 import com.qugengting.goodfood.bean.GoodFoodFavor;
+import com.qugengting.goodfood.eventbus.ItemDelete;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,6 +31,7 @@ import org.jsoup.select.Elements;
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,6 +46,7 @@ public class DetailActivity extends AppCompatActivity {
 
     protected ProgressDialog dialog;
     private String mUrl;
+    private int position;
     @BindView(R.id.toolbar)
     ToolBar toolBar;
     @BindView(R.id.tv_title)
@@ -61,7 +66,9 @@ public class DetailActivity extends AppCompatActivity {
     private String mTitle;
     private String mImgUrl;
     private List<String> mListMaterial = new ArrayList<>();
+    private List<String> adapterListMaterial = new ArrayList<>();
     private List<String> mListSteps = new ArrayList<>();
+    private List<String> adatperListSteps = new ArrayList<>();
     private MaterialAdapter materialAdapter;
     private StepAdapter adapter;
     private boolean isFavor = false;
@@ -81,14 +88,12 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
             }
         });
-//        btnFavor.setColorNormalResId(R.color.pink);
-//        btnFavor.setColorPressedResId(R.color.pink_pressed);
-//        btnFavor.setIcon(R.drawable.ic_fab_star);
-        materialAdapter = new MaterialAdapter(this, mListMaterial);
+        materialAdapter = new MaterialAdapter(this, adapterListMaterial);
         gvMaterial.setAdapter(materialAdapter);
-        adapter = new StepAdapter(this, mListSteps);
+        adapter = new StepAdapter(this, adatperListSteps);
         lvStep.setAdapter(adapter);
         mUrl = getIntent().getStringExtra("detail");
+        position = getIntent().getIntExtra("position", -1);
         favor = DataSupport.where("url = ?", mUrl).findFirst(GoodFoodFavor.class);
         if (favor != null) {
             isFavor = true;
@@ -115,6 +120,11 @@ public class DetailActivity extends AppCompatActivity {
             btnFavor.setImageResource(R.drawable.ic_favor_selected);
             favor.setHtml(mHtmlContent);
             favor.setUrl(mUrl);
+            favor.setImageUrl(mImgUrl);
+            String date = DateUtils.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss");
+            favor.setFavorDate(date);
+            favor.setTitle(mTitle);
+            favor.setFavorTime(System.currentTimeMillis());
             favor.save();
             isFavor = true;
             Utils.makeText(this, "添加收藏成功");
@@ -152,6 +162,8 @@ public class DetailActivity extends AppCompatActivity {
                         if (s.equals(OK)) {
                             tvTitle.setText(mTitle);
                             Glide.with(DetailActivity.this).load(mImgUrl).into(imageView);
+                            adapterListMaterial.addAll(mListMaterial);
+                            adatperListSteps.addAll(mListSteps);
                             materialAdapter.notifyDataSetChanged();
                             adapter.notifyDataSetChanged();
 //                            UIHelper.setListViewHeightBasedOnChildren(lvStep);
@@ -202,7 +214,17 @@ public class DetailActivity extends AppCompatActivity {
             Log.e(TAG, "所用时间：" + (b - a) + "毫秒");
         } catch (Exception e) {
             e.printStackTrace();
+            return ERROR;
         }
         return OK;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //由收藏界面进来的话，如果取消收藏需要通知收藏页界面刷新
+        if (!isFavor && position != -1) {
+            EventBus.getDefault().post(new ItemDelete(position));
+        }
     }
 }

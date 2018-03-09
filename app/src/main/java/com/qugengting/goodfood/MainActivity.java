@@ -278,9 +278,15 @@ public class MainActivity extends MPermissionsActivity {
         });
     }
 
-    @OnClick(R.id.tv_collection)
+    @OnClick(R.id.tv_largeimage)
     public void glideTest() {
         Intent intent = new Intent(this, LargeImageViewActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.tv_collection)
+    public void goToFavorActivity() {
+        Intent intent = new Intent(this, FavorActivity.class);
         startActivity(intent);
     }
 

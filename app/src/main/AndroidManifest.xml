@@ -24,6 +24,7 @@
         <activity android:name="com.qugengting.goodfood.DetailActivity" />
         <activity android:name=".ImageActivity" />
         <activity android:name=".ImageTitleActivity" />
+        <activity android:name=".FavorActivity" />
         <activity android:name="com.common.gif.GifActivity" />
         <activity android:name="com.common.library.image.ImageChooserActivity" />
         <activity android:name="com.common.library.image.ImageGridActivity" />
