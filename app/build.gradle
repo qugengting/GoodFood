@@ -8,24 +8,42 @@ android {
         targetSdkVersion rootProject.ext.targetSdk
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            keyAlias 'fangcuan'
+            keyPassword '3398829'
+            storeFile file('fangcuan.jks')
+            storePassword '3398829'
+        }
+        debug {
+            keyAlias 'fangcuan'
+            keyPassword '3398829'
+            storeFile file('fangcuan.jks')
+            storePassword '3398829'
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "GoodFood-${defaultConfig.versionName}-release.apk"
+        }
+    }
+
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    testCompile 'junit:junit:4.12'
     compile 'org.jsoup:jsoup:1.9.2'
     compile project(':library')
     compile project(':library-gif')
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'//内存泄漏自动检测工具
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
 }

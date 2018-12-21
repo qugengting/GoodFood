@@ -22,5 +22,7 @@
         <attr name="title_text" format="string"/>
         <!--背景-->
         <attr name="barBackground" format="reference|color"/>
+        <!--标题icon是否可见，可见一般就有点击事件-->
+        <attr name="titleIcon" format="boolean" />
     </declare-styleable>
 </resources>

@@ -2,12 +2,13 @@ package com.common.library.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,6 +54,9 @@ public class ToolBar extends LinearLayout {
 
     private int backgroundResId;
     private RelativeLayout layout;
+    private Boolean isTitleIcon;
+    private ImageView titleIv;
+    private LinearLayout titleLayout;
 
     public ToolBar(Context context) {
         this(context, null);
@@ -103,18 +107,22 @@ public class ToolBar extends LinearLayout {
         }
         /**-------------背景颜色------------*/
         backgroundResId = typedArray.getResourceId(R.styleable.CustomToolBar_barBackground, -1);
+        /**-------------标题icon------------*/
+        isTitleIcon = typedArray.getBoolean(R.styleable.CustomToolBar_titleIcon, false);
 
         typedArray.recycle();
 
         /**-------------设置内容------------*/
         View barLayoutView = LayoutInflater.from(context).inflate(R.layout.layout_common_toolbar, this);
         layout = barLayoutView.findViewById(R.id.toolbar_content_rlyt);
-        leftBtn = (ImageButton) barLayoutView.findViewById(R.id.toolbar_left_btn);
-        leftTv = (TextView) barLayoutView.findViewById(R.id.toolbar_left_tv);
-        titleTv = (TextView) barLayoutView.findViewById(R.id.toolbar_title_tv);
-        rightBtn = (Button) barLayoutView.findViewById(R.id.toolbar_right_btn);
-        rightTv = (TextView) barLayoutView.findViewById(R.id.toolbar_right_tv);
-        rightTv1 = (TextView) barLayoutView.findViewById(R.id.toolbar_right1_tv);
+        leftBtn = barLayoutView.findViewById(R.id.toolbar_left_btn);
+        leftTv = barLayoutView.findViewById(R.id.toolbar_left_tv);
+        titleTv = barLayoutView.findViewById(R.id.toolbar_title_tv);
+        titleIv = barLayoutView.findViewById(R.id.toolbar_title_iv);
+        titleLayout = barLayoutView.findViewById(R.id.toolbar_title_layout);
+        rightBtn = barLayoutView.findViewById(R.id.toolbar_right_btn);
+        rightTv = barLayoutView.findViewById(R.id.toolbar_right_tv);
+        rightTv1 = barLayoutView.findViewById(R.id.toolbar_right1_tv);
 
         if (isLeftBtnVisible) {
             leftBtn.setVisibility(VISIBLE);
@@ -150,6 +158,24 @@ public class ToolBar extends LinearLayout {
         if (backgroundResId != -1) {
             layout.setBackgroundResource(backgroundResId);
             barLayoutView.setBackgroundResource(backgroundResId);
+        }
+
+        if (isTitleIcon) {
+            titleIv.setVisibility(VISIBLE);
+        }
+    }
+
+    public void setTitleLayoutClickListener(OnClickListener listener) {
+        if (titleLayout != null) {
+            titleLayout.setOnClickListener(listener);
+        }
+    }
+
+    public void setTitleImageDrawableDown(boolean isDown) {
+        if (isDown) {
+            titleIv.setImageResource(R.drawable.arrow_down);
+        } else {
+            titleIv.setImageResource(R.drawable.arrow_up);
         }
     }
 
@@ -205,5 +231,9 @@ public class ToolBar extends LinearLayout {
 
     public void setTitle(String title) {
         titleTv.setText(title);
+    }
+
+    public void setRightBtnBackground(Drawable drawable) {
+        rightBtn.setBackground(drawable);
     }
 }

@@ -76,6 +76,26 @@
             android:text="本地GIF图片"
             android:textColor="@color/textview_press_bg"
             android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:text="京东商城"
+            android:textColor="@color/textview_press_bg"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:text="测试界面"
+            android:textColor="@color/textview_press_bg"
+            android:textSize="15sp" />
     </LinearLayout>
 
 

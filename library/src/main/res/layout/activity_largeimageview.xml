@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:left_btn_visible="true"
-        app:title_text="大图浏览"
+        app:title_text="图片查看"
         app:title_visible="true" />
 
     <com.shizhefei.view.largeimage.LargeImageView

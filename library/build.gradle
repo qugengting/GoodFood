@@ -56,4 +56,8 @@ dependencies {
     compile 'com.shizhefei:LargeImageView:1.1.0'
     //图片变换框架https://github.com/wasabeef/glide-transformations，必须使用当前版本，更高版本对应glide 4.5以上，有冲突
     compile 'jp.wasabeef:glide-transformations:2.0.2'
+
+    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
+    implementation 'com.just.agentweb:agentweb:4.0.2'
+    implementation 'com.tencent.sonic:sdk:3.1.0'
 }

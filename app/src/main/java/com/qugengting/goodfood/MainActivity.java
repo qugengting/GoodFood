@@ -28,6 +28,10 @@ import com.common.library.permission.MPermissionsActivity;
 import com.common.library.util.SharedPreferencesUtils;
 import com.common.library.util.UriUtils;
 import com.common.library.util.Utils;
+import com.common.library.webview.AgentWebFragment;
+import com.common.library.webview.BaseWebActivity;
+import com.common.library.webview.WebActivity;
+import com.common.library.webview.vassonic.VasSonicFragment;
 import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
 import com.qugengting.goodfood.fragment.SeasonHotFragment;
@@ -86,10 +90,16 @@ public class MainActivity extends MPermissionsActivity {
         weekSelectionFragment.setFragmentTitle("一周精选");
         SeasonHotFragment seasonHotFragment = new SeasonHotFragment();
         seasonHotFragment.setFragmentTitle("当季最热");
+//        AgentWebFragment agentWebFragment = new AgentWebFragment();
+//        agentWebFragment.setFragmentTitle("唯品会");
+        VasSonicFragment vasSonicFragment = new VasSonicFragment();
+        vasSonicFragment.setFragmentTitle("唯品会");
         fragmentList.add(weekSelectionFragment);
         fragmentList.add(seasonHotFragment);
+        fragmentList.add(vasSonicFragment);
         adapter = new BaseFragmentAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
         adapter.notifyDataSetChanged();
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
@@ -109,7 +119,7 @@ public class MainActivity extends MPermissionsActivity {
 
     private int clickTime = 0;
     private long time;
-    private boolean isTest = false;
+    private boolean isTest = true;
 
     @OnClick(R.id.iv_logo)
     public void getWelfare() {
@@ -122,8 +132,9 @@ public class MainActivity extends MPermissionsActivity {
                 long n = System.currentTimeMillis() - time;
                 if (n < 1500) {
                     clickTime = 0;
-                    Intent intent = new Intent(this, ImageTitleActivity.class);
-
+//                    Intent intent = new Intent(this, ImageTitleActivity.class);
+                    Intent intent = new Intent(this, BaseWebActivity.class);
+                    intent.putExtra("qu", "https://www.2247bb.com");
                     startActivity(intent);
                 } else {
                     clickTime = 0;
@@ -136,6 +147,18 @@ public class MainActivity extends MPermissionsActivity {
             requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II);
         }
 
+    }
+
+    @OnClick(R.id.tv_test)
+    public void test() {
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.tv_webview)
+    public void jingdong() {
+        Intent intent = new Intent(this, BaseWebActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.tv_gif_scan)

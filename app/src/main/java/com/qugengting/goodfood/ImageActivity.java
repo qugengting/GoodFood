@@ -41,7 +41,7 @@ import rx.schedulers.Schedulers;
  * 描述：
  */
 
-public class ImageActivity extends AppCompatActivity {
+public class ImageActivity extends BaseActivity {
     private static final String TAG = ImageActivity.class.getSimpleName();
     @BindView(R.id.vp_images)
     ViewPager vp;

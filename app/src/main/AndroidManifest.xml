@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
         android:name="App"
         android:allowBackup="true"
@@ -25,10 +28,12 @@
         <activity android:name=".ImageActivity" />
         <activity android:name=".ImageTitleActivity" />
         <activity android:name=".FavorActivity" />
+        <activity android:name=".TestActivity" />
         <activity android:name="com.common.gif.GifActivity" />
         <activity android:name="com.common.library.image.ImageChooserActivity" />
         <activity android:name="com.common.library.image.ImageGridActivity" />
         <activity android:name="com.common.library.image.LargeImageViewActivity" />
+        <activity android:name="com.common.library.webview.BaseWebActivity" />
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

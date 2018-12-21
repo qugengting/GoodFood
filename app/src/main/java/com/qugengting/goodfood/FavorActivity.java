@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  * 描述：美食收藏界面
  */
 
-public class FavorActivity extends AppCompatActivity {
+public class FavorActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     ToolBar toolBar;
     @BindView(R.id.lv_favor)

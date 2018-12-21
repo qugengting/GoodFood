@@ -40,4 +40,15 @@ public class CustomViewPager extends ViewPager {
             return false;
         }
     }
+    //以下设置防止其切换页签有多页闪烁的问题
+
+    @Override
+    public void setCurrentItem(int item, boolean smoothScroll) {
+        super.setCurrentItem(item, smoothScroll);
+    }
+
+    @Override
+    public void setCurrentItem(int item) {
+        super.setCurrentItem(item, false);
+    }
 }

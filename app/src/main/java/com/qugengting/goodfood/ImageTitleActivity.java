@@ -45,7 +45,7 @@ import rx.schedulers.Schedulers;
  * 描述：图片日期分类列表
  */
 
-public class ImageTitleActivity extends AppCompatActivity {
+public class ImageTitleActivity extends BaseActivity {
     private static final String TAG = ImageTitleActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     ToolBar toolBar;

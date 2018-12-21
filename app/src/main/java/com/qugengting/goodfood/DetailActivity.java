@@ -42,7 +42,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity {
 
     protected ProgressDialog dialog;
     private String mUrl;
@@ -121,7 +121,7 @@ public class DetailActivity extends AppCompatActivity {
             favor.setHtml(mHtmlContent);
             favor.setUrl(mUrl);
             favor.setImageUrl(mImgUrl);
-            String date = DateUtils.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss");
+            String date = DateUtils.date2Str(new Date(), "yyyy-MM-dd HH:mm:ss");
             favor.setFavorDate(date);
             favor.setTitle(mTitle);
             favor.setFavorTime(System.currentTimeMillis());
