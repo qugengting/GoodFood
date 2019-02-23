@@ -160,4 +160,9 @@
     <color name="grassgreen">#99cc33</color><!--草绿色 -->
     <color name="grey_cc">#cccccc</color><!--灰色cc -->
     <color name="grey_8f">#8f8f8f</color><!--灰色8f -->
+
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
 </resources>
