@@ -25,7 +25,9 @@ import com.common.library.fragment.BaseFragmentAdapter;
 import com.common.library.fragment.CustomViewPager;
 import com.common.library.image.LargeImageViewActivity;
 import com.common.library.permission.MPermissionsActivity;
+import com.common.library.util.DateUtils;
 import com.common.library.util.SharedPreferencesUtils;
+import com.common.library.util.ToastUtil;
 import com.common.library.util.UriUtils;
 import com.common.library.util.Utils;
 import com.common.library.webview.AgentWebFragment;
@@ -34,10 +36,21 @@ import com.common.library.webview.WebActivity;
 import com.common.library.webview.vassonic.VasSonicFragment;
 import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
+import com.common.library.widget.popmenu.dialog.ActionSheetDialog;
+import com.common.library.zxing.android.CaptureActivity;
 import com.qugengting.goodfood.fragment.SeasonHotFragment;
 import com.qugengting.goodfood.fragment.WeekSelectionFragment;
 
+import org.jaaksi.pickerview.picker.BasePicker;
+import org.jaaksi.pickerview.picker.MixedTimePicker;
+import org.jaaksi.pickerview.picker.TimePicker;
+import org.jaaksi.pickerview.widget.PickerView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -106,6 +119,8 @@ public class MainActivity extends MPermissionsActivity {
         initRadioGroup();
         //经测试，三种Transform比较有用BlurTransformation——模糊化，GrayscaleTransformation——灰化和CropCircleTransformation——圆角化
         Glide.with(this).load(R.drawable.girl).bitmapTransform(new BlurTransformation(this, 25)).into(ivLogo);
+        initDurationPicker();
+        initStartTimePicker();
     }
 
     @Override
@@ -172,6 +187,122 @@ public class MainActivity extends MPermissionsActivity {
         requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_I);
     }
 
+    @OnClick(R.id.tv_qrcode)
+    public void qrcodeScan() {
+        requestPermission(new String[]{Manifest.permission.CAMERA}, REQUESCODE_PERMISSION_CAMERA);
+    }
+
+    @OnClick(R.id.tv_show_bottom)
+    public void showBottomPop() {
+        new ActionSheetDialog(this)
+                .builder()
+                .setCancelable(true)
+                .setOnCancelClickListener(new ActionSheetDialog.OnCancelClickListener() {
+                    @Override
+                    public void onClick() {
+
+                    }
+                })
+                .setCanceledOnTouchOutside(false)
+                .addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+
+                            }
+                        })
+
+                .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+
+                            }
+                        }).show();
+    }
+
+    private TimePicker mTimePicker;
+    private MixedTimePicker mStartPicker;
+    private String mConfDurationHour = "1";
+    private String mConfDurationMinute = "0";
+    private DateFormat dateFormatHourMinute = new SimpleDateFormat("HH:mm");
+
+    private void initDurationPicker() {
+        int type = 0;
+        // 设置type
+        type = type | TimePicker.TYPE_HOUR;
+        type = type | TimePicker.TYPE_MINUTE;
+        mTimePicker = new TimePicker.Builder(this, type, new TimePicker.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(TimePicker picker, Date date) {
+                String result = dateFormatHourMinute.format(date);
+                String showStr;
+                String[] strings = result.split(":");
+                mConfDurationHour = strings[0];
+                int h = Integer.valueOf(mConfDurationHour);//去掉“01”前面的0
+                mConfDurationHour = String.valueOf(h);
+                mConfDurationMinute = strings[1];
+                if (mConfDurationMinute.equals("00")) {
+                   showStr = mConfDurationHour + "小时";
+                } else {
+                    showStr = mConfDurationHour + "小时 " + mConfDurationMinute + "分钟";
+                }
+                ToastUtil.showToast(MainActivity.this, showStr);
+            }
+        })
+                // 设置时间区间
+                .setRangDate(1526361240000L, 1893563460000L)
+                .setTimeMinuteOffset(15)//设置分钟间隔,此处15表示只显示0，15，30，45
+                // 设置选中时间
+                //.setSelectedDate()
+                // 设置pickerview样式
+                .setInterceptor(new BasePicker.Interceptor() {
+                    @Override
+                    public void intercept(PickerView pickerView) {
+                        pickerView.setVisibleItemCount(3);
+                        // 将时分设置为循环的
+                        int type = (int) pickerView.getTag();
+                        if (type == TimePicker.TYPE_HOUR || type == TimePicker.TYPE_MINUTE) {
+                            pickerView.setIsCirculation(true);
+                        }
+                    }
+                })
+                // 设置 Formatter
+                .setFormatter(new TimePicker.TimeNumFormatter()).create();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), 4, 20, 1, 0);
+        mTimePicker.setSelectedDate(calendar.getTimeInMillis());
+    }
+
+    private void initStartTimePicker() {
+        int type = 0;
+        type = type | MixedTimePicker.TYPE_DATE;
+        type = type | MixedTimePicker.TYPE_TIME;
+        // 2018/5/15 13:14:00 - 2030/1/2 13:51:0
+        mStartPicker = new MixedTimePicker.Builder(this, type, new MixedTimePicker.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(MixedTimePicker picker, Date date) {
+                String stime = DateUtils.date2Str(date, DateUtils.FORMAT_YMDHM);
+                ToastUtil.showToast(MainActivity.this, stime);
+            }
+        })
+                .setTimeMinuteOffset(15)
+                // 设置时间区间 2018/2/5 3:14:0 - 2020/1/2 22:51:0
+                .setRangDate(System.currentTimeMillis() + 60000 * 15, System.currentTimeMillis() + 86400000L * 60)//从当前时间后15分钟到两个月后
+                .create();
+    }
+
+    @OnClick(R.id.tv_time_selector)
+    public void selectTime() {
+        mStartPicker.setSelectedDate(System.currentTimeMillis());
+        mStartPicker.show();
+    }
+
+    @OnClick(R.id.tv_duration_selector)
+    public void selectDuration() {
+        mTimePicker.show();
+    }
+
     @Override
     public void permissionSuccess(int requestCode) {
         super.permissionSuccess(requestCode);
@@ -184,6 +315,8 @@ public class MainActivity extends MPermissionsActivity {
             } else {
                 goToPhotoPicker();
             }
+        } else if (requestCode == REQUESCODE_PERMISSION_CAMERA) {
+            gotoQRCodeScan();
         }
 
     }
@@ -208,6 +341,11 @@ public class MainActivity extends MPermissionsActivity {
                 .setShowGif(true)
                 .setPreviewEnabled(false)
                 .start(MainActivity.this, PhotoPicker.REQUEST_CODE);
+    }
+
+    private void gotoQRCodeScan() {
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -267,6 +405,7 @@ public class MainActivity extends MPermissionsActivity {
     private static final int WHAT_SHOW_IMAGE = 1013;
     private static final int REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_I = 0x0005;
     private static final int REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II = 0x0006;
+    private static final int REQUESCODE_PERMISSION_CAMERA = 0x0007;
     private String mGifFilePath;
     private Uri mGifUri;
     private List<String> listPhotos;

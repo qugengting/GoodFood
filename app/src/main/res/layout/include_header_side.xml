@@ -96,6 +96,46 @@
             android:text="测试界面"
             android:textColor="@color/textview_press_bg"
             android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_qrcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:text="二维码扫描"
+            android:textColor="@color/textview_press_bg"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_show_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:text="底部弹框"
+            android:textColor="@color/textview_press_bg"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_time_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="16dp"
+            android:text="时间选择"
+            android:textColor="@color/textview_press_bg"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_duration_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="16dp"
+            android:text="时长选择"
+            android:textColor="@color/textview_press_bg"
+            android:textSize="15sp" />
     </LinearLayout>
 
 

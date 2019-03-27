@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/library-gif" />
             <option value="$PROJECT_DIR$/library-zxing" />
+            <option value="$PROJECT_DIR$/pickerview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
