@@ -3,16 +3,26 @@ package com.common.library.util;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by xuruibin on 2018/5/11.
@@ -329,4 +339,239 @@ public class FileUtils {
         return fileSizeLong;
     }
 
+    /**
+     * 获取assets文件夹里面指定文件数据
+     *
+     * @param context
+     * @param fileName
+     * @return
+     */
+    public static String getFromAssets(Context context, String fileName) {
+        try {
+            InputStreamReader inputReader = new InputStreamReader(context.getResources().getAssets().open(fileName));
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line;
+            String Result = "";
+            while ((line = bufReader.readLine()) != null) {
+                Result += line;
+            }
+            return Result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * 将字符串写入到文本文件中
+     * @param strcontent
+     * @param filePath 父文件夹，以斜杠结尾
+     * @param fileName 文件名
+     */
+    public static void writeTxtToFile(String strcontent, String filePath, String fileName) {
+        //生成文件夹之后，再生成文件，不然会出错
+        makeFilePath(filePath, fileName);
+
+        String strFilePath = filePath + fileName;
+        // 每次写入时，都换行写
+        String strContent = strcontent + "\r\n";
+        try {
+            File file = new File(strFilePath);
+            if (!file.exists()) {
+                Log.d("TestFile", "Create the file:" + strFilePath);
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
+            RandomAccessFile raf = new RandomAccessFile(file, "rwd");
+            raf.seek(file.length());
+            raf.write(strContent.getBytes());
+            raf.close();
+        } catch (Exception e) {
+            Log.e("TestFile", "Error on write File:" + e);
+        }
+    }
+
+    //生成文件
+    public static File makeFilePath(String filePath, String fileName) {
+        File file = null;
+        makeRootDirectory(filePath);
+        try {
+            file = new File(filePath + fileName);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    //生成文件夹
+    public static void makeRootDirectory(String filePath) {
+        File file = null;
+        try {
+            file = new File(filePath);
+            if (!file.exists()) {
+                file.mkdir();
+            }
+        } catch (Exception e) {
+            Log.i("error:", e + "");
+        }
+    }
+
+    //读取指定目录下的所有TXT文件的文件内容
+    public static String getFileContent(File file) {
+        String content = "";
+        if (!file.isDirectory()) { //检查此路径名的文件是否是一个目录(文件夹)
+            if (file.getName().endsWith("txt")) {//文件格式为""文件
+                try {
+                    InputStream instream = new FileInputStream(file);
+                    if (instream != null) {
+                        InputStreamReader inputreader
+                                = new InputStreamReader(instream, "UTF-8");
+                        BufferedReader buffreader = new BufferedReader(inputreader);
+                        String line = "";
+                        //分行读取
+                        while ((line = buffreader.readLine()) != null) {
+                            content += line + "\n";
+                        }
+                        instream.close();//关闭输入流
+                    }
+                } catch (java.io.FileNotFoundException e) {
+                    Log.d("TestFile", "The File doesn't not exist.");
+                } catch (IOException e) {
+                    Log.d("TestFile", e.getMessage());
+                }
+            }
+        }
+        return content;
+    }
+
+
+
+
+
+    /**
+     * 向文件中写入数据
+     *
+     * @param filePath 文件目录
+     * @param content  要写入的内容
+     * @param append   如果为 true，则将数据写入文件末尾处，而不是写入文件开始处
+     * @return 写入成功返回true， 写入失败返回false
+     * @throws IOException
+     */
+    public static boolean writeFile(String filePath, String content,
+                                    boolean append) throws IOException {
+        if (TextUtils.isEmpty(filePath)) {
+            return false;
+        }
+        if (TextUtils.isEmpty(content)) {
+            return false;
+        }
+        FileWriter fileWriter = null;
+        try {
+            createFile(filePath);
+            fileWriter = new FileWriter(filePath, append);
+            fileWriter.write(content);
+            fileWriter.flush();
+            return true;
+        } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void createFile(String fileName) {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 获取某个目录下的指定扩展名的文件名称
+     *
+     * @param dirPath 目录
+     * @return 某个目录下的所有文件名
+     */
+    public static List<String> getFileNameList(String dirPath, final String extension) {
+        if (TextUtils.isEmpty(dirPath)) {
+            return Collections.emptyList();
+        }
+        File dir = new File(dirPath);
+        File[] files = dir.listFiles(new FilenameFilter() {
+
+            @Override
+            public boolean accept(File dir, String filename) {
+                if (filename.indexOf("." + extension) > 0)
+                    return true;
+                return false;
+            }
+        });
+        if (files == null) {
+            return Collections.emptyList();
+        }
+        List<String> conList = new ArrayList<String>();
+        for (File file : files) {
+            if (file.isFile())
+                conList.add(file.getName());
+        }
+        return conList;
+    }
+
+    /**
+     * 删除指定目录中特定的文件
+     *
+     * @param dir
+     * @param filter
+     */
+    public static void delete(String dir, FilenameFilter filter) {
+        if (TextUtils.isEmpty(dir))
+            return;
+        File file = new File(dir);
+        if (!file.exists())
+            return;
+        if (file.isFile())
+            file.delete();
+        if (!file.isDirectory())
+            return;
+
+        File[] lists = null;
+        if (filter != null)
+            lists = file.listFiles(filter);
+        else
+            lists = file.listFiles();
+
+        if (lists == null)
+            return;
+        for (File f : lists) {
+            if (f.isFile()) {
+                f.delete();
+            }
+        }
+    }
+
+
+    /**
+     * 获得文件或文件夹的大小
+     *
+     * @param path 文件或目录的绝对路径
+     * @return 返回当前目录的大小 ，注：当文件不存在，为空，或者为空白字符串，返回 -1
+     */
+    public static long getFileSize(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return -1;
+        }
+        File file = new File(path);
+        return (file.exists() && file.isFile() ? file.length() : -1);
+    }
 }

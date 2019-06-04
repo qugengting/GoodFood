@@ -2,6 +2,7 @@ package com.qugengting.goodfood;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,10 +13,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.common.gif.GifActivity;
@@ -121,6 +124,29 @@ public class MainActivity extends MPermissionsActivity {
         Glide.with(this).load(R.drawable.girl).bitmapTransform(new BlurTransformation(this, 25)).into(ivLogo);
         initDurationPicker();
         initStartTimePicker();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                TextView textView = (TextView) LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_textview, null);
+                textView.setTextSize(18);
+                textView.setTextColor(Color.parseColor("#ffce3d3a"));
+                textView.setText(tab.getText());
+                tab.setCustomView(textView);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                tab.setCustomView(null);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        tabLayout.getTabAt(1).select();
     }
 
     @Override

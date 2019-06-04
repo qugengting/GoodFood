@@ -3,6 +3,8 @@ Luban图片压缩     ——同上
 List排序，Collections.sort         ——同上
 大图显示          ——package com.common.library.image.LargeImageViewActivity
 glide添加下载进度及获取下载路径      ——同上
+classes.dex和签名校验        -com.common.library.util.ApkSecurityUtils
+崩溃日志捕获及保存            -com.common.library.util.CrashHandler
 底部弹框选择，如拍照和相册等       ——com.common.library.widget.popmenu.dialog
                    new ActionSheetDialog(this)
                     .builder()
