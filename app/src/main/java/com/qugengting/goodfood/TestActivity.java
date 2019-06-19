@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,7 +15,6 @@ import android.webkit.WebViewClient;
 import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by xuruibin on 2018/10/16.

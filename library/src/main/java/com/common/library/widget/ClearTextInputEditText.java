@@ -2,8 +2,8 @@ package com.common.library.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.AppCompatEditText;
+import com.google.android.material.textfield.TextInputEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;

@@ -1,7 +1,9 @@
 package com.common.library.fragment;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Created by xuruibin on 2018/2/1.
  */
-public class BaseFragmentAdapter extends android.support.v4.app.FragmentPagerAdapter {
+public class BaseFragmentAdapter extends FragmentPagerAdapter {
     private List<BaseFragment> fragmentList;
     private BaseFragment currentFragment;
 

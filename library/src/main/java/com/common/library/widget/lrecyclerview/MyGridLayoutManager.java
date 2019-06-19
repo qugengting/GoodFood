@@ -1,7 +1,7 @@
 package com.common.library.widget.lrecyclerview;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import android.util.AttributeSet;
 
 /**

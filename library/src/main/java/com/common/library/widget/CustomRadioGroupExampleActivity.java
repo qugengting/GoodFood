@@ -1,7 +1,7 @@
 package com.common.library.widget;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.widget.TextView;
 

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdk
-    buildToolsVersion rootProject.ext.buildTools
     defaultConfig {
         applicationId "com.qugengting.goodfood"
         minSdkVersion rootProject.ext.minSdk//也可以支持16级以上的不过页面跳转效果就没有了，透明状态栏也没有。
@@ -36,14 +35,22 @@ android {
         }
     }
 
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile 'org.jsoup:jsoup:1.9.2'
-    compile project(':library')
-    compile project(':library-gif')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+    implementation 'org.jsoup:jsoup:1.9.2'
+    implementation project(':library')
+    implementation project(':library-gif')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     //内存泄漏自动检测工具
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
