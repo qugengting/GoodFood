@@ -28,4 +28,15 @@ public class DeviceUtils {
         }
         return versionCode;
     }
+
+    public static boolean isInstallApp(Context context, String packageName) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            packageManager.getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
+            return true;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
 }

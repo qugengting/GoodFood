@@ -9,7 +9,7 @@
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/actionsheet_top_normal"
+        android:background="@drawable/bg_dialog_top_normal"
         android:gravity="center"
         android:minHeight="45dp"
         android:paddingTop="10dp"

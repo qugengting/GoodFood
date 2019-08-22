@@ -1,22 +1,32 @@
 package com.qugengting.goodfood;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.Nullable;
+
+import com.common.library.util.DeviceUtils;
+import com.common.library.widget.popmenu.dialog.ShareDialog;
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -83,6 +93,7 @@ public class MainActivity extends MPermissionsActivity {
     @BindView(R.id.iv_logo)
     ImageView ivLogo;
     private BaseFragmentAdapter adapter;
+    private ShareDialog mShareDialog;
 
 
     @Override
@@ -245,6 +256,65 @@ public class MainActivity extends MPermissionsActivity {
                         }).show();
     }
 
+    @OnClick(R.id.tv_share)
+    public void shareTo() {
+        if (mShareDialog == null) {
+            mShareDialog = new ShareDialog(this);
+        }
+        mShareDialog.setCanceledOnTouchOutside(true);
+        mShareDialog.show();
+
+        TextView tvCancle = mShareDialog.getView().findViewById(R.id.tv_share_cancle);
+        tvCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mShareDialog.cancel();
+            }
+        });
+        LinearLayout shareIJOMOO = mShareDialog.getView().findViewById(R.id.layout_share_ijomoo);
+        shareIJOMOO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DeviceUtils.isInstallApp(getApplicationContext(), "cn.jomoo.imobile")) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "this is test");
+                    sendIntent.setType("text/plain");
+                    sendIntent.setPackage("cn.jomoo.imobile");
+                    startActivity(sendIntent);
+                    mShareDialog.dismiss();
+                } else {
+                    ToastUtil.showToast(MainActivity.this, "应用未安装");
+                }
+
+            }
+        });
+        LinearLayout shareSMS = mShareDialog.getView().findViewById(R.id.layout_share_sms);
+        shareSMS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"));
+                intent.putExtra("sms_body", "this is test");
+                startActivity(intent);
+                mShareDialog.dismiss();
+            }
+        });
+        LinearLayout shareLianjie = mShareDialog.getView().findViewById(R.id.layout_share_clipboard);
+        shareLianjie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //获取剪贴板管理器：
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", "this is test");
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                ToastUtil.showToast(MainActivity.this, "内容已复制");
+                mShareDialog.dismiss();
+            }
+        });
+    }
+
     private TimePicker mTimePicker;
     private MixedTimePicker mStartPicker;
     private String mConfDurationHour = "1";
@@ -267,7 +337,7 @@ public class MainActivity extends MPermissionsActivity {
                 mConfDurationHour = String.valueOf(h);
                 mConfDurationMinute = strings[1];
                 if (mConfDurationMinute.equals("00")) {
-                   showStr = mConfDurationHour + "小时";
+                    showStr = mConfDurationHour + "小时";
                 } else {
                     showStr = mConfDurationHour + "小时 " + mConfDurationMinute + "分钟";
                 }
@@ -503,6 +573,10 @@ public class MainActivity extends MPermissionsActivity {
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
             handler = null;
+        }
+        if (mShareDialog != null) {
+            mShareDialog.cancel();
+            mShareDialog = null;
         }
     }
 }

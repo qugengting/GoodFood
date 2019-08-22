@@ -93,7 +93,7 @@ public class ActionSheetDialog {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param strItem
 	 *            条目名称
 	 * @param color
@@ -102,7 +102,7 @@ public class ActionSheetDialog {
 	 * @return
 	 */
 	public ActionSheetDialog addSheetItem(String strItem, SheetItemColor color,
-                                          OnSheetItemClickListener listener) {
+										  OnSheetItemClickListener listener) {
 		if (sheetItemList == null) {
 			sheetItemList = new ArrayList<SheetItem>();
 		}
@@ -139,7 +139,8 @@ public class ActionSheetDialog {
 			textView.setText(strItem);
 			textView.setTextSize(18);
 			textView.setGravity(Gravity.CENTER);
-
+			float scale = context.getResources().getDisplayMetrics().density;
+			View view = null;
 			// 背景图片
 			if (size == 1) {
 				if (showTitle) {
@@ -157,8 +158,18 @@ public class ActionSheetDialog {
 				} else {
 					if (i == 1) {
 						textView.setBackgroundResource(R.drawable.actionsheet_top_selector);
+
+						view = new View(context);
+						int height = (int) (1 * scale + 0.5f);
+						view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, height));
+						view.setBackgroundColor(Color.parseColor("#eeeeee"));
 					} else if (i < size) {
 						textView.setBackgroundResource(R.drawable.actionsheet_middle_selector);
+
+						view = new View(context);
+						int height = (int) (1 * scale + 0.5f);
+						view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, height));
+						view.setBackgroundColor(Color.parseColor("#eeeeee"));
 					} else {
 						textView.setBackgroundResource(R.drawable.actionsheet_bottom_selector);
 					}
@@ -167,14 +178,12 @@ public class ActionSheetDialog {
 
 			// 字体颜色
 			if (color == null) {
-				textView.setTextColor(Color.parseColor(SheetItemColor.Blue
-						.getName()));
+				textView.setTextColor(Color.parseColor(SheetItemColor.Blue.getName()));
 			} else {
 				textView.setTextColor(Color.parseColor(color.getName()));
 			}
 
 			// 高度
-			float scale = context.getResources().getDisplayMetrics().density;
 			int height = (int) (45 * scale + 0.5f);
 			textView.setLayoutParams(new LayoutParams(
 					LayoutParams.MATCH_PARENT, height));
@@ -189,6 +198,9 @@ public class ActionSheetDialog {
 			});
 
 			lLayout_content.addView(textView);
+			if (view != null) {
+				lLayout_content.addView(view);
+			}
 		}
 	}
 
@@ -218,7 +230,7 @@ public class ActionSheetDialog {
 		SheetItemColor color;
 
 		public SheetItem(String name, SheetItemColor color,
-				OnSheetItemClickListener itemClickListener) {
+						 OnSheetItemClickListener itemClickListener) {
 			this.name = name;
 			this.color = color;
 			this.itemClickListener = itemClickListener;
