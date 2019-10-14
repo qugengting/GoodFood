@@ -1,10 +1,12 @@
 package com.qugengting.goodfood;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import android.os.Message;
 
 import androidx.annotation.Nullable;
 
+import com.common.library.util.BitmapUtils;
+import com.common.library.util.CameraUtils;
 import com.common.library.util.DeviceUtils;
 import com.common.library.widget.popmenu.dialog.ShareDialog;
 import com.google.android.material.tabs.TabLayout;
@@ -20,6 +24,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -57,6 +62,7 @@ import org.jaaksi.pickerview.picker.MixedTimePicker;
 import org.jaaksi.pickerview.picker.TimePicker;
 import org.jaaksi.pickerview.widget.PickerView;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -243,7 +249,8 @@ public class MainActivity extends MPermissionsActivity {
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {
-
+                                //参考：https://blog.csdn.net/qugengting/article/details/87805856
+                                requestPermission(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESCODE_PERMISSION_TAKE_PHOTO);
                             }
                         })
 
@@ -411,6 +418,8 @@ public class MainActivity extends MPermissionsActivity {
             }
         } else if (requestCode == REQUESCODE_PERMISSION_CAMERA) {
             gotoQRCodeScan();
+        } else if (requestCode == REQUESCODE_PERMISSION_TAKE_PHOTO) {
+            takePhoto();
         }
 
     }
@@ -442,6 +451,15 @@ public class MainActivity extends MPermissionsActivity {
         startActivity(intent);
     }
 
+    private void takePhoto() {
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri imageUri = CameraUtils.getOutputMediaFileUri(this);
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        //Android7.0添加临时权限标记，此步千万别忘了
+        openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        startActivityForResult(openCameraIntent, CODE_TAKE_PHOTO);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -470,6 +488,18 @@ public class MainActivity extends MPermissionsActivity {
                     handler = new MyHandler();
                 }
                 handler.sendEmptyMessage(WHAT_SHOW_IMAGE);
+            } else if (requestCode == CODE_TAKE_PHOTO) {
+                ToastUtil.showToast(this, "拍照成功");
+                Bitmap originBitmap = CameraUtils.getBitmapWithRightRotation(CameraUtils.sCameraPath);
+                Bitmap bitmap = BitmapUtils.imageZoom(originBitmap, 600);
+                final String path = getExternalCacheDir() + File.separator;
+                final String name = "goodfood" + ".jpg";
+                File file = new File(path);
+                File targetFile = new File(path + name);
+                boolean result = BitmapUtils.saveBitmap(bitmap, file, targetFile);
+                Log.e(TAG, "图片保存是否成功：" + result + " - " + path + name);
+                File file1 = new File(CameraUtils.sCameraPath);
+                file1.delete();
             }
         }
     }
@@ -495,11 +525,13 @@ public class MainActivity extends MPermissionsActivity {
     private MyHandler handler;
     private static final int CODE_CHOOSE_IMAGE = 1011;//系统图片浏览
     private static final int CODE_CHOOSE_PHOTO = 1012;//自定义图片浏览
+    private static final int CODE_TAKE_PHOTO = 1014;//系统相机
     private static final int DURATION_PER_IMAGE_SHOW = 2000;
     private static final int WHAT_SHOW_IMAGE = 1013;
     private static final int REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_I = 0x0005;
     private static final int REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II = 0x0006;
     private static final int REQUESCODE_PERMISSION_CAMERA = 0x0007;
+    private static final int REQUESCODE_PERMISSION_TAKE_PHOTO = 0x0008;
     private String mGifFilePath;
     private Uri mGifUri;
     private List<String> listPhotos;
