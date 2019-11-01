@@ -2,6 +2,7 @@ package com.common.library.util;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -65,6 +66,18 @@ public class DeviceUtils {
     }
 
     /**
+     * 启动第三方应用
+     * @param context
+     * @param packageName
+     */
+    public static void launchAPK(Context context, String packageName) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intentForPackage = packageManager.getLaunchIntentForPackage(packageName);
+        intentForPackage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intentForPackage);
+    }
+
+    /**
      * 返回版本名字
      * 对应build.gradle中的versionName
      *
@@ -106,6 +119,15 @@ public class DeviceUtils {
         } else {
             return uuid;
         }
+    }
+
+    /**
+     * 获取设备号（即SN码）
+     * @return
+     */
+    public static String getDeviceSN(){
+        String serialNumber = android.os.Build.SERIAL;
+        return serialNumber;
     }
 
     /**

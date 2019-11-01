@@ -2,8 +2,10 @@ package com.common.library.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by xuruibin on 2017/11/21
@@ -240,5 +242,66 @@ public class DateUtils {
                 break;
         }
         return week;
+    }
+
+    /**
+     * 获取两个日期字符串之间的日期集合
+     *
+     * @param startTime:String yyyy-MM-dd HH:mm:ss
+     * @param endTime:String   yyyy-MM-dd HH:mm:ss
+     * @return list:yyyy-MM-dd
+     */
+    public static List<String> getBetweenDate(String startTime, String endTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        // 声明保存日期集合
+        List<String> list = new ArrayList<>();
+        try {
+            // 转化成日期类型
+            Date startDate = sdf.parse(startTime);
+            Date endDate = sdf.parse(endTime);
+
+            //用Calendar 进行日期比较判断
+            Calendar calendar = Calendar.getInstance();
+            while (startDate.getTime() <= endDate.getTime()) {
+                // 把日期添加到集合
+                list.add(sdf1.format(startDate));
+                // 设置日期
+                calendar.setTime(startDate);
+                //把日期增加一天
+                calendar.add(Calendar.DATE, 1);
+                // 获取增加后的日期
+                startDate = calendar.getTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
+     * 判断指定时间和当前时间比较大小
+     * @param compareTime HH:mm格式
+     * @return 大于当前时间返回1，小于当前时间返回0
+     */
+    public static int timeCompare(String compareTime) {
+        int i = 0;
+        String str = longToString(System.currentTimeMillis(), "yyyy-MM-dd");
+        str = str + " " + compareTime;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            Date date = dateFormat.parse(str);
+            long time = System.currentTimeMillis();
+            if (time <= date.getTime()) {
+                //当前时间大于指定时间
+                i = 1;
+            } else {
+                //当前时间小于指定时间
+                i = 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return i;
     }
 }

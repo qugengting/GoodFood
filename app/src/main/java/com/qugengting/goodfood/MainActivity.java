@@ -49,7 +49,6 @@ import com.common.library.util.ToastUtil;
 import com.common.library.util.UriUtils;
 import com.common.library.util.Utils;
 import com.common.library.webview.BaseWebActivity;
-import com.common.library.webview.vassonic.VasSonicFragment;
 import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
 import com.common.library.widget.popmenu.dialog.ActionSheetDialog;
@@ -123,14 +122,14 @@ public class MainActivity extends MPermissionsActivity {
         seasonHotFragment.setFragmentTitle("当季最热");
 //        AgentWebFragment agentWebFragment = new AgentWebFragment();
 //        agentWebFragment.setFragmentTitle("唯品会");
-        VasSonicFragment vasSonicFragment = new VasSonicFragment();
-        vasSonicFragment.setFragmentTitle("唯品会");
+//        VasSonicFragment vasSonicFragment = new VasSonicFragment();
+//        vasSonicFragment.setFragmentTitle("唯品会");
         fragmentList.add(weekSelectionFragment);
         fragmentList.add(seasonHotFragment);
-        fragmentList.add(vasSonicFragment);
+//        fragmentList.add(vasSonicFragment);
         adapter = new BaseFragmentAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
         adapter.notifyDataSetChanged();
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(viewPager);
@@ -203,6 +202,12 @@ public class MainActivity extends MPermissionsActivity {
             requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II);
         }
 
+    }
+
+    @OnClick(R.id.tv_x5)
+    public void x5andGaode() {
+        Intent intent = new Intent(this, X5WebActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.tv_test)

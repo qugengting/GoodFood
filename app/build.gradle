@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdk
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.qugengting.goodfood"
         minSdkVersion rootProject.ext.minSdk//也可以支持16级以上的不过页面跳转效果就没有了，透明状态栏也没有。
         targetSdkVersion rootProject.ext.targetSdk
@@ -27,6 +28,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     android.applicationVariants.all { variant ->
@@ -56,4 +62,6 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     implementation project(':library-zxing')
     implementation project(':pickerview')
+    implementation project(path: ':gaode')
+    implementation project(path: ':X5WebDemo')
 }

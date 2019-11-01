@@ -45,17 +45,10 @@
         <meta-data
             android:name="com.common.library.glide.MyGlideModule"
             android:value="GlideModule" />
-        <activity android:name="com.common.library.zxing.android.CaptureActivity" />
 
-        <provider
-            android:name=".demo.DemoFileProvider"
-            android:authorities="${applicationId}.demo.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>
+        <activity android:name="com.common.library.zxing.android.CaptureActivity" />
+        <activity android:name=".X5WebActivity" />
+
     </application>
 
 </manifest>

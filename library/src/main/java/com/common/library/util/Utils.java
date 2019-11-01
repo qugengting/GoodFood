@@ -7,6 +7,9 @@ import android.widget.Toast;
 
 import com.common.library.widget.AlertDialogEx;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by xuruibin on 2017/11/10.
  * 描述：公共工具类
@@ -90,5 +93,21 @@ public class Utils {
             toast.cancel();
             toast = null;
         }
+    }
+
+    private static SimpleDateFormat sdf = null;
+    public  static String formatUTC(long l, String strPattern) {
+        if (TextUtils.isEmpty(strPattern)) {
+            strPattern = "yyyy-MM-dd HH:mm:ss";
+        }
+        if (sdf == null) {
+            try {
+                sdf = new SimpleDateFormat(strPattern, Locale.CHINA);
+            } catch (Throwable e) {
+            }
+        } else {
+            sdf.applyPattern(strPattern);
+        }
+        return sdf == null ? "NULL" : sdf.format(l);
     }
 }
