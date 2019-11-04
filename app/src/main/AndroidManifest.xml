@@ -47,7 +47,6 @@
             android:value="GlideModule" />
 
         <activity android:name="com.common.library.zxing.android.CaptureActivity" />
-        <activity android:name=".X5WebActivity" />
 
     </application>
 

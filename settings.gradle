@@ -1,1 +1,1 @@
-include ':app', ':library', ':library-zxing', ':library-gif', ':pickerview', ':gaode', ':X5WebDemo'
+include ':app', ':library', ':library-zxing', ':library-gif', ':pickerview', ':filedownload'

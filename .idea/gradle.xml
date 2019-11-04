@@ -8,9 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/X5WebDemo" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/gaode" />
+            <option value="$PROJECT_DIR$/filedownload" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/library-gif" />
             <option value="$PROJECT_DIR$/library-zxing" />

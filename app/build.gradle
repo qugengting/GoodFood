@@ -4,7 +4,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.qugengting.goodfood"
-        minSdkVersion rootProject.ext.minSdk//也可以支持16级以上的不过页面跳转效果就没有了，透明状态栏也没有。
+        minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
         versionCode 1
         versionName "1.0"
@@ -62,6 +62,5 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     implementation project(':library-zxing')
     implementation project(':pickerview')
-    implementation project(path: ':gaode')
-    implementation project(path: ':X5WebDemo')
+    implementation project(path: ':filedownload')
 }

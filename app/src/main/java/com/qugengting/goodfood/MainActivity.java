@@ -1,7 +1,6 @@
 package com.qugengting.goodfood;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -11,6 +10,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import androidx.annotation.Nullable;
@@ -34,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.common.gif.GifActivity;
@@ -53,6 +54,7 @@ import com.common.library.widget.CustomRadioGroup;
 import com.common.library.widget.ToolBar;
 import com.common.library.widget.popmenu.dialog.ActionSheetDialog;
 import com.common.library.zxing.android.CaptureActivity;
+import com.qugengting.filedownload.DownloadHelper;
 import com.qugengting.goodfood.fragment.SeasonHotFragment;
 import com.qugengting.goodfood.fragment.WeekSelectionFragment;
 
@@ -204,10 +206,43 @@ public class MainActivity extends MPermissionsActivity {
 
     }
 
-    @OnClick(R.id.tv_x5)
-    public void x5andGaode() {
-        Intent intent = new Intent(this, X5WebActivity.class);
-        startActivity(intent);
+    @OnClick(R.id.tv_download)
+    public void filedownload() {
+        requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESCODE_PERMISSION_DOWNLOAD);
+    }
+
+    private void download() {
+        DownloadHelper downloadHelper = new DownloadHelper(new Callback());
+        List<String> urlList = new ArrayList<>();
+        List<String> nameList = new ArrayList<>();
+        urlList.add("http://img6.3lian.com/c23/desk4/07/01/d/09.jpg");
+        nameList.add("bit.jpg");
+        downloadHelper.startMultiTask(urlList, nameList);
+    }
+
+    public class Callback implements DownloadHelper.DownloadCallback {
+
+        @Override
+        public void success() {
+            //异步线程，需要切换到主线程
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtil.showToast(MainActivity.this, "下载成功");
+                }
+            });
+
+        }
+
+        @Override
+        public void failed(final String msg) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtil.showToast(MainActivity.this, msg);
+                }
+            });
+        }
     }
 
     @OnClick(R.id.tv_test)
@@ -425,6 +460,8 @@ public class MainActivity extends MPermissionsActivity {
             gotoQRCodeScan();
         } else if (requestCode == REQUESCODE_PERMISSION_TAKE_PHOTO) {
             takePhoto();
+        } else if(requestCode == REQUESCODE_PERMISSION_DOWNLOAD) {
+            download();
         }
 
     }
@@ -537,6 +574,7 @@ public class MainActivity extends MPermissionsActivity {
     private static final int REQUESCODE_PERMISSION_MANAGE_DOCUMENTS_II = 0x0006;
     private static final int REQUESCODE_PERMISSION_CAMERA = 0x0007;
     private static final int REQUESCODE_PERMISSION_TAKE_PHOTO = 0x0008;
+    private static final int REQUESCODE_PERMISSION_DOWNLOAD = 0x0009;
     private String mGifFilePath;
     private Uri mGifUri;
     private List<String> listPhotos;

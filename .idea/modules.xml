@@ -3,9 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GoodFood.iml" filepath="$PROJECT_DIR$/GoodFood.iml" />
-      <module fileurl="file://$PROJECT_DIR$/X5WebDemo/X5WebDemo.iml" filepath="$PROJECT_DIR$/X5WebDemo/X5WebDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gaode/gaode.iml" filepath="$PROJECT_DIR$/gaode/gaode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/filedownload/filedownload.iml" filepath="$PROJECT_DIR$/filedownload/filedownload.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-gif/library-gif.iml" filepath="$PROJECT_DIR$/library-gif/library-gif.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-zxing/library-zxing.iml" filepath="$PROJECT_DIR$/library-zxing/library-zxing.iml" />
