@@ -9,7 +9,16 @@ import com.common.library.net.interceptor.AddCookiesInterceptor;
 import com.common.library.net.interceptor.LoggingInterceptor;
 import com.common.library.net.interceptor.ReceivedCookiesInterceptor;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -64,8 +73,44 @@ public class NetWorkRetrofit {
     }
 
     public ServiceAPI getServiceAPI() {
+        setNoCertificates();
         Retrofit retrofit = builder.client(httpClient.build()).build();
         return retrofit.create(ServiceAPI.class);
     }
 
+    public static void setNoCertificates() {
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            X509TrustManager trustManager = new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType) {
+
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType) {
+
+                }
+
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+            };
+            X509TrustManager[] trustManagers = new X509TrustManager[]{
+                    trustManager
+            };
+            sc.init(null, trustManagers, new SecureRandom());
+            httpClient.sslSocketFactory(sc.getSocketFactory(), trustManager).hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            }).build();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+    }
 }
