@@ -16,7 +16,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MPermissionsActivity extends AppCompatActivity {
+public class MPermissionsActivity extends CheckPermissionsActivity {
     //另：RxPermissions使用介绍——https://www.jianshu.com/p/314e9e27592f
     private final String TAG = "MPermissions";
     private int REQUEST_CODE_PERMISSION = 0x00099;

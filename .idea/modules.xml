@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GoodFood.iml" filepath="$PROJECT_DIR$/GoodFood.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/filedownload/filedownload.iml" filepath="$PROJECT_DIR$/filedownload/filedownload.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library-gif/library-gif.iml" filepath="$PROJECT_DIR$/library-gif/library-gif.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library-zxing/library-zxing.iml" filepath="$PROJECT_DIR$/library-zxing/library-zxing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pickerview/pickerview.iml" filepath="$PROJECT_DIR$/pickerview/pickerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GoodFood.iml" filepath="$PROJECT_DIR$/GoodFood.iml" group="GoodFood" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="GoodFood/app" />
+      <module fileurl="file://$PROJECT_DIR$/filedownload/filedownload.iml" filepath="$PROJECT_DIR$/filedownload/filedownload.iml" group="GoodFood/filedownload" />
+      <module fileurl="file://$PROJECT_DIR$/gaode/gaode.iml" filepath="$PROJECT_DIR$/gaode/gaode.iml" group="GoodFood/gaode" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" group="GoodFood/library" />
+      <module fileurl="file://$PROJECT_DIR$/library-gif/library-gif.iml" filepath="$PROJECT_DIR$/library-gif/library-gif.iml" group="GoodFood/library-gif" />
+      <module fileurl="file://$PROJECT_DIR$/library-zxing/library-zxing.iml" filepath="$PROJECT_DIR$/library-zxing/library-zxing.iml" group="GoodFood/library-zxing" />
+      <module fileurl="file://$PROJECT_DIR$/pickerview/pickerview.iml" filepath="$PROJECT_DIR$/pickerview/pickerview.iml" group="GoodFood/pickerview" />
     </modules>
   </component>
 </project>

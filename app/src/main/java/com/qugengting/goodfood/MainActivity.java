@@ -55,6 +55,7 @@ import com.common.library.widget.ToolBar;
 import com.common.library.widget.popmenu.dialog.ActionSheetDialog;
 import com.common.library.zxing.android.CaptureActivity;
 import com.qugengting.filedownload.DownloadHelper;
+import com.qugengting.gaode.LocationUtils;
 import com.qugengting.goodfood.fragment.SeasonHotFragment;
 import com.qugengting.goodfood.fragment.WeekSelectionFragment;
 
@@ -62,6 +63,8 @@ import org.jaaksi.pickerview.picker.BasePicker;
 import org.jaaksi.pickerview.picker.MixedTimePicker;
 import org.jaaksi.pickerview.picker.TimePicker;
 import org.jaaksi.pickerview.widget.PickerView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -621,6 +624,11 @@ public class MainActivity extends MPermissionsActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.tv_location)
+    public void getLocation() {
+        LocationUtils.getLocationInfo(this);
+    }
+
     /**
      * 按返回键不退出应用。
      *
@@ -641,6 +649,8 @@ public class MainActivity extends MPermissionsActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
 
     @Override
     protected void onDestroy() {
